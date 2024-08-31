@@ -9,8 +9,8 @@ import RegisterLayout from 'src/layouts/RegisterLayout'
 import Login from 'src/pages/Login'
 import ProductDetail from 'src/pages/ProductDetail'
 const ProductList = lazy(() => import('src/pages/ProductList/ProductList'))
-import Profile from 'src/pages/Profile'
-import Register from 'src/pages/Register'
+import Profile from 'src/pages/ProductList/Profile'
+import Register from 'src/pages/ProductList/Register'
 import { QueryClient } from '@tanstack/react-query'
 import Spinner from 'src/components/Spinner'
 
@@ -87,7 +87,7 @@ export const router = createBrowserRouter([
         )
       },
       {
-        path: ':nameId',
+        path: path.productDetail,
         element: (
           <Suspense>
             <ProductDetail />

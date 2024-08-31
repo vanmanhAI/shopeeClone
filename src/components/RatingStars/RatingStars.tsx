@@ -11,7 +11,6 @@ interface Props {
 
 export const RatingStars = ({ queryConfig, stopLines = 6, scrollToTop }: Props) => {
   const { rating_filter } = queryConfig
-  console.log('rating_filter', rating_filter)
 
   const stopLinesIdInitial = rating_filter === '1' ? 6 : stopLines - 1
   const [lineStopId, setLineStopId] = useState<number>(stopLinesIdInitial)

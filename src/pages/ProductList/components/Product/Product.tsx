@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import Button from 'src/components/Button'
+import path from 'src/constants/path'
 import { Product as ProductType } from 'src/types/product.type'
 import { formatNumberToSocialStyle } from 'src/utils/utils'
 
@@ -10,7 +11,7 @@ interface Props {
 export const Product = ({ product }: Props) => {
   return (
     <Link
-      to='#'
+      to={`${path.home}${product._id}`}
       className={`flex h-full flex-col relative border border-[#00000017] ${product && 'group hover:border-orange z-1 hover:z-[2] hover:shadow-md duration-100 hover:-translate-y-px active:translate-y-0'}`}
     >
       <div className='w-full pt-[100%] flex-shrink-0 relative bg-[#fafafa] bg-[url("https://deo.shopeemobile.com/shopee/modules-federation/live/0/shopee__item-card-standard-v2/0.1.35/pc/a6aac7ccbd908f1d6e29.svg")] bg-no-repeat bg-center'>
