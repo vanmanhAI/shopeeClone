@@ -28,14 +28,14 @@ export interface ProductList {
 }
 
 export interface ProductListConfig {
-  page?: number
-  limit?: number
+  page?: string
+  limit?: string
   order?: 'desc' | 'asc'
   sort_by?: 'createdAt' | 'view' | 'sold' | 'price'
   category?: string
   exclude?: string
-  rating_filter?: number
-  price_max?: number
-  price_min?: number
+  rating_filter?: string
+  price_max?: string
+  price_min?: string
   name?: string
 }

@@ -10,7 +10,7 @@ import Input from 'src/components/Input'
 import path from 'src/constants/path'
 import { AppContext } from 'src/contexts/app.context'
 import { ErrorResponse } from 'src/types/utils.type'
-import { schemaCommon } from 'src/utils/rules'
+import { schemaCommonAuth } from 'src/utils/rules'
 import { isUnprocessableEntityAxiosError } from 'src/utils/utils'
 
 interface LoginForm {
@@ -18,7 +18,7 @@ interface LoginForm {
   password: string
 }
 
-const schema = Joi.object().concat(schemaCommon)
+const schema = Joi.object().concat(schemaCommonAuth)
 
 export const Login = () => {
   const {
@@ -69,7 +69,7 @@ export const Login = () => {
   })
 
   return (
-    <div className='bg-[#ee4d2d]'>
+    <div className='bg-orange'>
       <div className='container h-[600px] min-h-[600px] max-w-[1040px] bg-[url("https://down-vn.img.susercontent.com/file/sg-11134004-7rdww-lz7fzhaqivg745")] bg-contain bg-no-repeat bg-center flex items-center'>
         <div className='grid grid-cols-1 lg:grid-cols-5 py-12 lg:py-20 w-full'>
           <div className='w-[400px] justify-self-end lg:col-span-2 lg:col-start-4'>
@@ -97,7 +97,7 @@ export const Login = () => {
                   <Button
                     disabled={loginMutation.isPending}
                     type='submit'
-                    className='w-full rounded-sm text-center text-sm uppercase py-[0.625rem] px-2 bg-[#ee4d2d] shadow-sm text-white hover:bg-red-500'
+                    className='w-full rounded-sm text-center text-sm uppercase py-[0.625rem] px-2 bg-orange shadow-sm text-white hover:bg-red-500'
                   >
                     Đăng nhập
                   </Button>
@@ -105,7 +105,7 @@ export const Login = () => {
                 <div className='mt-[1.875rem] text-center'>
                   <div className='flex items-center whitespace-pre justify-center text-sm gap-[0.125rem]'>
                     <span className='text-[#94a3b8]'>Bạn mới biết đến shopee?</span>
-                    <Link to={path.register} className='text-[#ee4d2d]'>
+                    <Link to={path.register} className='text-orange'>
                       Đăng ký
                     </Link>
                   </div>

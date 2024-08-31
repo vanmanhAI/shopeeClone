@@ -18,7 +18,7 @@ export const RegisterHeader = () => {
             </Link>
             <div className='ml-5 text-xl lg:text-2xl'>{isRegisterPage ? 'Đăng ký' : 'Đăng nhập'}</div>
           </div>
-          <Link to='#' className='text-[#ee4d2d] text-sm mr-[15px]'>
+          <Link to='#' className='text-orange text-sm mr-[15px]'>
             Bạn cần giúp đỡ?
           </Link>
         </nav>

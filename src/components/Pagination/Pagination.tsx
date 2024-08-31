@@ -1,16 +1,18 @@
+import classNames from 'classnames'
 import { Dictionary } from 'lodash'
 import { createSearchParams, Link } from 'react-router-dom'
 import path from 'src/constants/path'
 
 interface Props {
-  queryConfig: Dictionary<string | number>
+  queryConfig: Dictionary<string>
   pageSize: number
+  scrollToTop: () => void
 }
 
 const RANGE = 2
 const RANGE_FIRST = 4
 
-export const Pagination = ({ queryConfig, pageSize }: Props) => {
+export const Pagination = ({ queryConfig, pageSize, scrollToTop }: Props) => {
   const page = +queryConfig.page
 
   const renderPagination = () => {
@@ -42,7 +44,7 @@ export const Pagination = ({ queryConfig, pageSize }: Props) => {
             <Link
               key={pageNumber}
               to='#'
-              className='text-xl h-[1.875rem] min-w-10 flex items-center justify-center font-light transition bg-transparent rounded-sm hover:text-[#ee4d2d] cursor-pointer'
+              className='text-xl h-[1.875rem] min-w-10 flex items-center justify-center font-light transition bg-transparent rounded-sm hover:text-orange cursor-pointer'
             >
               ...
             </Link>
@@ -53,7 +55,7 @@ export const Pagination = ({ queryConfig, pageSize }: Props) => {
             <Link
               key={pageNumber}
               to='#'
-              className='text-xl h-[1.875rem] min-w-10 flex items-center justify-center font-light transition bg-transparent rounded-sm hover:text-[#ee4d2d] cursor-pointer'
+              className='text-xl h-[1.875rem] min-w-10 flex items-center justify-center font-light transition bg-transparent rounded-sm hover:text-orange cursor-pointer'
             >
               ...
             </Link>
@@ -65,6 +67,7 @@ export const Pagination = ({ queryConfig, pageSize }: Props) => {
         return (
           <Link
             key={pageNumber}
+            onClick={scrollToTop}
             to={{
               pathname: path.home,
               search: createSearchParams({
@@ -73,7 +76,7 @@ export const Pagination = ({ queryConfig, pageSize }: Props) => {
               }).toString()
             }}
             className={`text-xl h-[1.875rem] min-w-10 flex items-center justify-center font-light transition rounded-sm cursor-pointer ${
-              pageNumber === page ? 'bg-[#ee4d2d] text-white' : 'bg-transparent text-[#0006] hover:text-[#ee4d2d]'
+              pageNumber === page ? 'bg-orange text-white' : 'bg-transparent text-[#0006] hover:text-orange'
             }`}
           >
             {pageNumber}
@@ -86,12 +89,16 @@ export const Pagination = ({ queryConfig, pageSize }: Props) => {
   const disabledNextLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (page === pageSize) {
       e.preventDefault()
+    } else {
+      scrollToTop()
     }
   }
 
   const disablePrevLink = (e: React.MouseEvent<HTMLAnchorElement>) => {
     if (page === 1) {
       e.preventDefault()
+    } else {
+      scrollToTop()
     }
   }
 
@@ -106,7 +113,12 @@ export const Pagination = ({ queryConfig, pageSize }: Props) => {
             page: (page - 1).toString()
           }).toString()
         }}
-        className='h-[1.875rem] min-w-10 flex items-center justify-center font-light bg-transparent transition'
+        className={classNames(
+          'h-[1.875rem] min-w-10 flex items-center justify-center font-light bg-transparent transition',
+          {
+            'cursor-auto': page === 1
+          }
+        )}
       >
         <svg
           enableBackground='new 0 0 11 11'
@@ -130,7 +142,12 @@ export const Pagination = ({ queryConfig, pageSize }: Props) => {
             page: (page + 1).toString()
           }).toString()
         }}
-        className='h-[1.875rem] min-w-10 flex items-center justify-center font-light bg-transparent transition'
+        className={classNames(
+          'h-[1.875rem] min-w-10 flex items-center justify-center font-light bg-transparent transition',
+          {
+            'cursor-auto': page === pageSize
+          }
+        )}
       >
         <svg
           enableBackground='new 0 0 11 11'

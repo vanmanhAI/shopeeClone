@@ -8,7 +8,7 @@ import { orderBy, sortBy } from 'src/constants/product'
 import { ProductListConfig } from 'src/types/product.type'
 
 interface Props {
-  queryConfig: Dictionary<string | number>
+  queryConfig: Dictionary<string>
   pageSize: number
 }
 
@@ -77,7 +77,7 @@ export const SortProductList = ({ queryConfig, pageSize }: Props) => {
           className={classNames(
             'flex items-center justify-center px-[0.9375rem] h-[2.125rem] rounded-sm  shadow-sm capitalize',
             {
-              'bg-[#ee4d2d] text-white': isActiveSortBy(sortBy.createdAt),
+              'bg-orange text-white': isActiveSortBy(sortBy.createdAt),
               'text-[#000000cc] bg-white': !isActiveSortBy(sortBy.createdAt)
             }
           )}
@@ -89,7 +89,7 @@ export const SortProductList = ({ queryConfig, pageSize }: Props) => {
           className={classNames(
             'flex items-center justify-center px-[0.9375rem] h-[2.125rem] rounded-sm shadow-sm capitalize ',
             {
-              'bg-[#ee4d2d] text-white': isActiveSortBy(sortBy.view),
+              'bg-orange text-white': isActiveSortBy(sortBy.view),
               'text-[#000000cc] bg-white': !isActiveSortBy(sortBy.view)
             }
           )}
@@ -102,7 +102,7 @@ export const SortProductList = ({ queryConfig, pageSize }: Props) => {
           className={classNames(
             'flex items-center justify-center px-[0.9375rem] h-[2.125rem] rounded-sm shadow-sm capitalize',
             {
-              'bg-[#ee4d2d] text-white': isActiveSortBy(sortBy.sold),
+              'bg-orange text-white': isActiveSortBy(sortBy.sold),
               'text-[#000000cc] bg-white': !isActiveSortBy(sortBy.sold)
             }
           )}
@@ -116,7 +116,7 @@ export const SortProductList = ({ queryConfig, pageSize }: Props) => {
             <div className='flex flex-col py-[10px] rounded-sm overflow-y-auto bg-white min-w-[12.5rem] shadow-md'>
               <div
                 onClick={() => handlePriceOrder(orderBy.asc)}
-                className='flex items-center justify-between cursor-pointer pl-[0.9375rem] pr-3 text-[#222] hover:text-[#ee4d2d] h-[2.125rem] text-sm'
+                className='flex items-center justify-between cursor-pointer pl-[0.9375rem] pr-3 text-[#222] hover:text-orange h-[2.125rem] text-sm'
               >
                 <span>{initialOrderCost.current.asc}</span>
                 {order === orderBy.asc && (
@@ -125,7 +125,7 @@ export const SortProductList = ({ queryConfig, pageSize }: Props) => {
                     viewBox='0 0 12 12'
                     x={0}
                     y={0}
-                    className='w-[.6875rem] fill-[#ee4d2d] h-[0.875rem]'
+                    className='w-[.6875rem] fill-orange h-[0.875rem]'
                   >
                     <g>
                       <path d='m5.2 10.9c-.2 0-.5-.1-.7-.2l-4.2-3.7c-.4-.4-.5-1-.1-1.4s1-.5 1.4-.1l3.4 3 5.1-7c .3-.4 1-.5 1.4-.2s.5 1 .2 1.4l-5.7 7.9c-.2.2-.4.4-.7.4 0-.1 0-.1-.1-.1z' />
@@ -135,7 +135,7 @@ export const SortProductList = ({ queryConfig, pageSize }: Props) => {
               </div>
               <div
                 onClick={() => handlePriceOrder(orderBy.desc)}
-                className='flex items-center justify-between cursor-pointer pl-[0.9375rem] pr-3 text-[#222] hover:text-[#ee4d2d] h-[2.125rem] text-sm'
+                className='flex items-center justify-between cursor-pointer pl-[0.9375rem] pr-3 text-[#222] hover:text-orange h-[2.125rem] text-sm'
               >
                 <span>{initialOrderCost.current.desc}</span>
                 {order === orderBy.desc && (
@@ -144,7 +144,7 @@ export const SortProductList = ({ queryConfig, pageSize }: Props) => {
                     viewBox='0 0 12 12'
                     x={0}
                     y={0}
-                    className='w-[.6875rem] fill-[#ee4d2d] h-[0.875rem]'
+                    className='w-[.6875rem] fill-orange h-[0.875rem]'
                   >
                     <g>
                       <path d='m5.2 10.9c-.2 0-.5-.1-.7-.2l-4.2-3.7c-.4-.4-.5-1-.1-1.4s1-.5 1.4-.1l3.4 3 5.1-7c .3-.4 1-.5 1.4-.2s.5 1 .2 1.4l-5.7 7.9c-.2.2-.4.4-.7.4 0-.1 0-.1-.1-.1z' />
@@ -156,7 +156,7 @@ export const SortProductList = ({ queryConfig, pageSize }: Props) => {
           }
           className='bg-white h-[2.125rem] rounded-sm flex items-center justify-between pl-3 pr-[0.375rem] shadow-sm min-w-[12.5rem] border-none outline-none '
         >
-          <span className={`${order !== undefined && 'text-[#ee4d2d]'}`}>
+          <span className={`${order !== undefined && 'text-orange'}`}>
             {order ? initialOrderCost.current[order] : initialOrderCost.current.defaultOrder}
           </span>
           <svg viewBox='0 0 10 6' className='fill-[#555] mr-3 w-3'>
@@ -169,7 +169,7 @@ export const SortProductList = ({ queryConfig, pageSize }: Props) => {
       </div>
       <div className='flex items-center justify-end gap-5'>
         <div>
-          <span className='text-[#ee4d2d]'>{page}</span>/<span>{pageSize}</span>
+          <span className='text-orange'>{page}</span>/<span>{pageSize}</span>
         </div>
         <div className='h-full flex justify-end'>
           <Link

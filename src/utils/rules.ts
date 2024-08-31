@@ -1,6 +1,7 @@
-import Joi from 'joi'
+import Joi, { CustomHelpers } from 'joi'
+import { ProductsFilterFormData } from 'src/pages/ProductList/components/AsideFilter/AsideFilter'
 
-export const schemaCommon = Joi.object({
+export const schemaCommonAuth = Joi.object({
   email: Joi.string()
     .required()
     .min(5)
@@ -24,3 +25,32 @@ export const schemaCommon = Joi.object({
       'any.required': 'Password không được để trống'
     })
 })
+
+export const schemaProductsFilter = Joi.object<ProductsFilterFormData>({
+  price_min: Joi.string().trim().allow(''),
+  price_max: Joi.string().trim().allow('')
+})
+  .custom((value: ProductsFilterFormData, helpers: CustomHelpers<ProductsFilterFormData>) => {
+    if (!value.price_min && !value.price_max) {
+      return helpers.error(
+        'value.invalid',
+        {},
+        {
+          path: ['price_min']
+        }
+      )
+    }
+    if (value.price_min && value.price_max && Number(value.price_min) > Number(value.price_max)) {
+      return helpers.error(
+        'value.invalid',
+        {},
+        {
+          path: ['price_min']
+        }
+      )
+    }
+    return value
+  })
+  .messages({
+    'value.invalid': 'Vui lòng điền khoảng giá phù hợp'
+  })

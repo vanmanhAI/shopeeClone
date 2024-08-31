@@ -8,8 +8,8 @@ export default function useQueryConfig() {
 
   const queryConfig = omitBy(
     {
-      page: queryParams.page || 1,
-      limit: queryParams.limit || 20,
+      page: queryParams.page || '1',
+      limit: queryParams.limit || '20',
       sort_by: queryParams.sort_by,
       exclude: queryParams.exclude,
       name: queryParams.name,
@@ -22,7 +22,7 @@ export default function useQueryConfig() {
     (value) => {
       return value === undefined
     }
-  ) as Dictionary<string | number>
+  ) as Dictionary<string>
 
   return queryConfig
 }

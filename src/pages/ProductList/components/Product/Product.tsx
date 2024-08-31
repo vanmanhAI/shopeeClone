@@ -11,7 +11,7 @@ export const Product = ({ product }: Props) => {
   return (
     <Link
       to='#'
-      className={`flex flex-col relative border border-[#00000017] ${product && 'group hover:border-[#ee4d2d] z-1 hover:z-[2] hover:shadow-md duration-100 hover:-translate-y-px active:translate-y-0'}`}
+      className={`flex h-full flex-col relative border border-[#00000017] ${product && 'group hover:border-orange z-1 hover:z-[2] hover:shadow-md duration-100 hover:-translate-y-px active:translate-y-0'}`}
     >
       <div className='w-full pt-[100%] flex-shrink-0 relative bg-[#fafafa] bg-[url("https://deo.shopeemobile.com/shopee/modules-federation/live/0/shopee__item-card-standard-v2/0.1.35/pc/a6aac7ccbd908f1d6e29.svg")] bg-no-repeat bg-center'>
         <img
@@ -43,7 +43,7 @@ export const Product = ({ product }: Props) => {
               />
               {product.name}
             </div>
-            <div className='flex items-center font-medium text-[#ee4d2d] gap-1'>
+            <div className='flex items-center font-medium text-orange gap-1'>
               <div className='flex items-baseline flex-shrink truncate'>
                 <span className='mr-px text-xs'>₫</span>
                 <span className='text-base truncate'>{product.price.toLocaleString('vi-VN')}</span>
@@ -52,8 +52,8 @@ export const Product = ({ product }: Props) => {
                 -{Math.round(((product.price_before_discount - product.price) / product.price_before_discount) * 100)}%
               </div>
             </div>
-            <div className='flex flex-col flex-1 justify-between'>
-              <div className='flex h-5 items-center space-x-1 mb-2 text-[.625rem]'>
+            <div className='flex flex-col flex-1 justify-between gap-2'>
+              <div className='flex h-5 mb-auto items-center space-x-1 text-[.625rem]'>
                 <div className='flex flex-shrink-0 items-stretch truncate h-4 text-white max-w-[60%] rounded-sm'>
                   <svg
                     xmlns='http://www.w3.org/2000/svg'
@@ -77,11 +77,11 @@ export const Product = ({ product }: Props) => {
                     />
                   </svg>
                 </div>
-                <div className='capitalize text-[#ee4d2d] px-[0.1875rem] leading-4 rounded-sm truncate flex-shrink-0 max-w-[60%] h-4 border border-current'>
+                <div className='capitalize text-orange px-[0.1875rem] leading-4 rounded-sm truncate flex-shrink-0 max-w-[60%] h-4 border border-current'>
                   <span>Rẻ vô địch</span>
                 </div>
               </div>
-              <div className='flex items-center space-x-1 text-[#000000de] mb-2'>
+              <div className='flex mt-auto items-center space-x-1 text-[#000000de] mb-2'>
                 <div className='flex-none h-[0.875rem] flex items-center space-x-0.5'>
                   <svg xmlns='http://www.w3.org/2000/svg' width={10} height={10} viewBox='0 0 12 12' fill='none'>
                     <path
@@ -174,7 +174,7 @@ export const Product = ({ product }: Props) => {
           </>
         )}
       </div>
-      <Button className='absolute opacity-0 group-hover:opacity-100 duration-100 z-[-1] bg-[#ee4d2d] top-full -inset-x-[0.0625rem] text-white text-sm h-[1.875rem] text-center leading-[1.875rem] rounded-bl-sm rounded-br-sm'>
+      <Button className='absolute opacity-0 group-hover:opacity-100 duration-100 z-[-1] bg-orange top-full -inset-x-[0.0625rem] text-white text-sm h-[1.875rem] text-center leading-[1.875rem] rounded-bl-sm rounded-br-sm'>
         Tìm sản phẩm tương tự
       </Button>
     </Link>

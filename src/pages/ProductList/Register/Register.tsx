@@ -2,7 +2,7 @@ import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
 import { joiResolver } from '@hookform/resolvers/joi'
 import Joi from 'joi'
-import { schemaCommon } from 'src/utils/rules'
+import { schemaCommonAuth } from 'src/utils/rules'
 import Input from 'src/components/Input'
 import { useMutation } from '@tanstack/react-query'
 import { registerAccount } from 'src/apis/auth.api'
@@ -25,7 +25,7 @@ const schema = Joi.object<Pick<RegisterForm, 'confirm_password'>>({
     'string.empty': 'Password không được để trống',
     'any.required': 'Password không được để trống'
   })
-}).concat(schemaCommon)
+}).concat(schemaCommonAuth)
 
 export const Register = () => {
   const {
@@ -77,7 +77,7 @@ export const Register = () => {
   })
 
   return (
-    <div className='bg-[#ee4d2d]'>
+    <div className='bg-orange'>
       <div className='container h-[600px] min-h-[600px] max-w-[1040px] bg-[url("https://down-vn.img.susercontent.com/file/sg-11134004-7rdww-lz7fzhaqivg745")] bg-contain bg-no-repeat bg-center'>
         <div className='grid grid-cols-1 lg:grid-cols-5 py-12 lg:py-20 w-full'>
           <div className='lg:col-span-2 lg:col-start-4 w-[400px] justify-self-end '>
@@ -113,7 +113,7 @@ export const Register = () => {
                   <Button
                     disabled={registerAccountMutation.isPending}
                     type='submit'
-                    className='w-full rounded-sm text-center text-sm uppercase py-[0.625rem] px-2 bg-[#ee4d2d] shadow-sm text-white hover:bg-red-500'
+                    className='w-full rounded-sm text-center text-sm uppercase py-[0.625rem] px-2 bg-orange shadow-sm text-white hover:bg-red-500'
                   >
                     Đăng ký
                   </Button>
@@ -121,7 +121,7 @@ export const Register = () => {
                 <div className='mt-[1.875rem] text-center'>
                   <div className='flex items-center whitespace-pre justify-center text-sm gap-[0.125rem]'>
                     <span className='text-[#94a3b8]'>Bạn đã có tài khoản</span>
-                    <Link to={path.login} className='text-[#ee4d2d]'>
+                    <Link to={path.login} className='text-orange'>
                       Đăng nhập
                     </Link>
                   </div>

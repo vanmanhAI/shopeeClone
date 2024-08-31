@@ -6,7 +6,7 @@ interface Props {
 
 export const Footer = ({ inRegisterLayout }: Props) => {
   return (
-    <footer className={!inRegisterLayout ? 'border-t-4 border-[#ee4d2d]' : ''}>
+    <footer className={!inRegisterLayout ? 'border-t-4 border-orange' : ''}>
       <div className='bg-[#fbfbfb]'>
         <div className='container'>
           <div className='grid grid-cols-5 text-[#000000a6] p-[0.3125rem] border-b-2 text-xs w-full'>

@@ -156,13 +156,13 @@ export const Header = () => {
                       <div className='flex flex-[0_0_2.5rem]'>
                         <Link
                           to={path.register}
-                          className='flex items-center justify-center flex-grow flex-shrink-0 hover:bg-[#e8e8e8] hover:text-[#ee4d2d]'
+                          className='flex items-center justify-center flex-grow flex-shrink-0 hover:bg-[#e8e8e8] hover:text-orange'
                         >
                           Đăng ký
                         </Link>
                         <Link
                           to={path.login}
-                          className='flex items-center justify-center flex-grow flex-shrink-0 hover:bg-[#e8e8e8] hover:text-[#ee4d2d]'
+                          className='flex items-center justify-center flex-grow flex-shrink-0 hover:bg-[#e8e8e8] hover:text-orange'
                         >
                           Đăng nhập
                         </Link>
@@ -201,10 +201,10 @@ export const Header = () => {
             <Popover
               renderPopover={
                 <div className='bg-white rounded-sm shadow-[0_.0625rem_3.125rem_0_rgba(0,0,0,.2)] flex flex-col overflow-hidden min-w-[12.5rem] text-sm cursor-pointer'>
-                  <button className='text-left p-[0.625rem] hover:text-[#ee4d2d]'>
+                  <button className='text-left p-[0.625rem] hover:text-orange'>
                     <span>Tiếng việt</span>
                   </button>
-                  <button className='text-left p-[0.625rem] hover:text-[#ee4d2d]'>
+                  <button className='text-left p-[0.625rem] hover:text-orange'>
                     <span>English</span>
                   </button>
                 </div>
@@ -388,7 +388,7 @@ export const Header = () => {
                   <div className='truncate flex-grow mr-10 text-[#000000cc]'>
                     Sổ Lò Xo Caro B5 Bìa Nhự Trắng Mờ 160 trang TUANVIET BOOKS
                   </div>
-                  <div className='text-[#ee4d2d]'>₫29.800</div>
+                  <div className='text-orange'>₫29.800</div>
                 </div>
                 <div className='overflow-hidden p-[0.625rem] flex hover:bg-[#f8f8f8]'>
                   <img
@@ -399,7 +399,7 @@ export const Header = () => {
                   <div className='truncate flex-grow mr-10 text-[#000000cc]'>
                     Sổ Lò Xo Caro B5 Bìa Nhự Trắng Mờ 160 trang TUANVIET BOOKS
                   </div>
-                  <div className='text-[#ee4d2d]'>₫29.800</div>
+                  <div className='text-orange'>₫29.800</div>
                 </div>
                 <div className='overflow-hidden p-[0.625rem] flex hover:bg-[#f8f8f8]'>
                   <img
@@ -410,7 +410,7 @@ export const Header = () => {
                   <div className='truncate flex-grow mr-10 text-[#000000cc]'>
                     Sổ Lò Xo Caro B5 Bìa Nhự Trắng Mờ 160 trang TUANVIET BOOKS
                   </div>
-                  <div className='text-[#ee4d2d]'>₫29.800</div>
+                  <div className='text-orange'>₫29.800</div>
                 </div>
                 <div className='h-[3.75rem] p-[0.625rem] flex justify-between capitalize'>
                   <div className='flex items-center gap-1 text-xs text-[#000000cc]'>
@@ -419,7 +419,7 @@ export const Header = () => {
                   </div>
                   <Link
                     to='#'
-                    className='flex-shrink-0 flex items-center bg-[#ee4d2d] px-[0.9375rem] rounded-sm text-center min-w-[3.75rem] h-[2.125rem] text-white hover:bg-[#f05d40]'
+                    className='flex-shrink-0 flex items-center bg-orange px-[0.9375rem] rounded-sm text-center min-w-[3.75rem] h-[2.125rem] text-white hover:bg-[#f05d40]'
                   >
                     Xem giỏ hàng
                   </Link>
