@@ -85,7 +85,7 @@ export const Header = () => {
             <Popover
               renderPopover={
                 <div
-                  className={`flex z-10 flex-col overflow-hidden bg-white rounded-sm shadow-[0_1px_3.125rem_0_rgba(0,0,0,.2)] text-sm w-[25rem] ${!isAuthenticated && 'h-[21.875rem] text-[#000000cc]'}`}
+                  className={`flex z-10 flex-col border border-gray-300 overflow-hidden bg-white rounded-sm shadow-[0_1px_3.125rem_0_rgba(0,0,0,.2)] text-sm w-[25rem] ${!isAuthenticated && 'h-[21.875rem] text-[#000000cc]'}`}
                 >
                   {isAuthenticated && (
                     <>
@@ -200,7 +200,7 @@ export const Header = () => {
             </Link>
             <Popover
               renderPopover={
-                <div className='bg-white rounded-sm shadow-[0_.0625rem_3.125rem_0_rgba(0,0,0,.2)] flex flex-col overflow-hidden min-w-[12.5rem] text-sm cursor-pointer'>
+                <div className='bg-white border border-gray-300 rounded-sm shadow-[0_.0625rem_3.125rem_0_rgba(0,0,0,.2)] flex flex-col overflow-hidden min-w-[12.5rem] text-sm cursor-pointer'>
                   <button className='text-left p-[0.625rem] hover:text-orange'>
                     <span>Tiếng việt</span>
                   </button>
@@ -375,7 +375,7 @@ export const Header = () => {
             className='col-span-1 self-start'
             offsetOptions={{ crossAxis: -20 }}
             renderPopover={
-              <div className='bg-white z-1 overflow-hidden shadow-[0_1px_3.125rem_0_rgba(0,0,0,.2)] w-[25rem] rounded-sm flex flex-col text-sm'>
+              <div className='bg-white z-1 overflow-hidden shadow-[0_1px_3.125rem_0_rgba(0,0,0,.2)] border border-gray-300 w-[25rem] rounded-sm flex flex-col text-sm'>
                 <h3 className='pl-[10px] h-10 flex items-center text-[#00000042] capitalize font-[400]'>
                   Sản phẩm mới thêm
                 </h3>
