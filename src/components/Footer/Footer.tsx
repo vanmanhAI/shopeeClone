@@ -271,13 +271,13 @@ export const Footer = ({ inRegisterLayout }: Props) => {
                 )}
                 <div className='flex flex-col justify-between gap-2 w-[4.75rem]'>
                   <Link to='#' className='p-1 bg-white shadow-sm rounded-sm'>
-                    <img src='src/assets/images/app-store-icon.png' alt='' />
+                    <img src='@/assets/images/app-store-icon.png' alt='' />
                   </Link>
                   <Link to='#' className='p-1 bg-white shadow-sm rounded-sm'>
-                    <img src='src/assets/images/google-play-icon.png' alt='' />
+                    <img src='@/assets/images/google-play-icon.png' alt='' />
                   </Link>
                   <Link to='#' className='p-1 bg-white shadow-sm rounded-sm'>
-                    <img src='src/assets/images/app-gallery-icon.png' alt='' />
+                    <img src='@/assets/images/app-gallery-icon.png' alt='' />
                   </Link>
                 </div>
               </div>

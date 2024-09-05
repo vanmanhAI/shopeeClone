@@ -1,5 +1,6 @@
+import path from '@/constants/path'
 import classNames from 'classnames'
-import { Dictionary } from 'lodash'
+import { Dictionary, omit } from 'lodash'
 import { useState } from 'react'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 
@@ -17,15 +18,31 @@ export const RatingStars = ({ queryConfig, stopLines = 6, scrollToTop }: Props) 
   const navigate = useNavigate()
 
   const handleRatingClick = (rating: number) => {
-    navigate({
-      pathname: window.location.pathname,
-      search: createSearchParams({
-        ...queryConfig,
-        page: '1',
-        limit: '20',
-        rating_filter: rating.toString()
-      }).toString()
-    })
+    if (rating_filter === rating.toString()) {
+      navigate({
+        pathname: path.home,
+        search: createSearchParams(
+          omit(
+            {
+              ...queryConfig,
+              page: '1',
+              limit: '20'
+            },
+            ['rating_filter']
+          )
+        ).toString()
+      })
+    } else {
+      navigate({
+        pathname: path.home,
+        search: createSearchParams({
+          ...queryConfig,
+          page: '1',
+          limit: '20',
+          rating_filter: rating.toString()
+        }).toString()
+      })
+    }
     scrollToTop()
   }
 

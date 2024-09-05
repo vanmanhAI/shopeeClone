@@ -1,4 +1,4 @@
-import { ProductListConfig } from 'src/types/product.type'
+import { ProductListConfig } from '@/types/product.type'
 import omitBy from 'lodash/omitBy'
 import { useQueryParams } from './useQueryParams'
 import { Dictionary } from 'lodash'

@@ -15,7 +15,7 @@ export default {
         orange: '#ee4d2d'
       },
       backgroundImage: {
-        'footer-texture': "url('/src/assets/images/footer-texture.png')"
+        'footer-texture': 'url(/src/assets/images/footer-texture.png)'
       },
       keyframes: {
         bounce: {

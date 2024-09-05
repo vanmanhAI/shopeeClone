@@ -1,10 +1,10 @@
 import { Link } from 'react-router-dom'
 import Popover from '../Popover'
-import { AppContext } from 'src/contexts/app.context'
+import { AppContext } from '@/contexts/app.context'
 import { useContext } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import { logout } from 'src/apis/auth.api'
-import path from 'src/constants/path'
+import { logout } from '@/apis/auth.api'
+import path from '@/constants/path'
 
 export const Header = () => {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)

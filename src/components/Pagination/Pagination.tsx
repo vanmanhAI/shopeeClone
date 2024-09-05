@@ -1,7 +1,7 @@
 import classNames from 'classnames'
 import { Dictionary } from 'lodash'
 import { createSearchParams, Link } from 'react-router-dom'
-import path from 'src/constants/path'
+import path from '@/constants/path'
 
 interface Props {
   queryConfig: Dictionary<string>

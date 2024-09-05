@@ -29,6 +29,8 @@ interface PopoverProps {
   initialOpen?: boolean
   placement?: Placement
   applyAnimation?: boolean
+  strokeArrowColor?: string
+  strokeArrowWidth?: number
 }
 
 export const Popover = ({
@@ -42,7 +44,9 @@ export const Popover = ({
   as: Element = 'div',
   initialOpen,
   placement = 'bottom-end',
-  applyAnimation = true
+  applyAnimation = true,
+  strokeArrowWidth = 2,
+  strokeArrowColor = 'transparent'
 }: PopoverProps) => {
   const [isOpen, setIsOpen] = useState(initialOpen || false)
   const arrowRef = useRef<SVGSVGElement>(null)
@@ -90,7 +94,10 @@ export const Popover = ({
                 <motion.div style={styles}>
                   {renderPopover}
                   <FloatingArrow
-                    fill='white'
+                    stroke={strokeArrowColor}
+                    style={{ transform: 'translateY(-2px)' }}
+                    fill={arrowColor}
+                    strokeWidth={strokeArrowWidth}
                     ref={arrowRef}
                     context={context}
                     width={arrowWidth}
@@ -104,7 +111,10 @@ export const Popover = ({
             <>
               {renderPopover}
               <FloatingArrow
+                stroke={strokeArrowColor}
+                style={{ transform: 'translateY(-2px)' }}
                 fill={arrowColor}
+                strokeWidth={strokeArrowWidth}
                 ref={arrowRef}
                 context={context}
                 width={arrowWidth}

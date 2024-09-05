@@ -2,13 +2,13 @@ import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import AsideFilter from './components/AsideFilter'
 import { Product } from './components/Product/Product'
 import SortedProductList from './SortProductList'
-import { getProducts } from 'src/apis/product.api'
-import Pagination from 'src/components/Pagination'
-import useQueryConfig from 'src/hooks/useQueryConfig'
-import { getCategories } from 'src/apis/category.api'
-import Button from 'src/components/Button'
+import { getProducts } from '@/apis/product.api'
+import Pagination from '@/components/Pagination'
+import useQueryConfig from '@/hooks/useQueryConfig'
+import { getCategories } from '@/apis/category.api'
+import Button from '@/components/Button'
 import { createSearchParams, useNavigate } from 'react-router-dom'
-import path from 'src/constants/path'
+import path from '@/constants/path'
 import { omit } from 'lodash'
 
 const ProductList = () => {
@@ -100,7 +100,7 @@ const ProductList = () => {
                   <div className='mt-[0.3125rem] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[0.625rem]'>
                     {productData.data.data.products.map((product) => (
                       <div className='col-span-1' key={product._id}>
-                        <Product product={product} />
+                        <Product scrollToTop={scrollToTop} product={product} />
                       </div>
                     ))}
                   </div>

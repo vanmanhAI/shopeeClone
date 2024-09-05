@@ -1,6 +1,6 @@
-import path from 'src/constants/path'
-import { AuthResponse } from 'src/types/auth.type'
-import http from 'src/utils/http'
+import path from '@/constants/path'
+import { AuthResponse } from '@/types/auth.type'
+import http from '@/utils/http'
 
 export const registerAccount = (body: { email: string; password: string }) =>
   http.post<AuthResponse>(path.register, body)

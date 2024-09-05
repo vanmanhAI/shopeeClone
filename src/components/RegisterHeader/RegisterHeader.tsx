@@ -1,5 +1,5 @@
 import { Link, useMatch } from 'react-router-dom'
-import path from 'src/constants/path'
+import path from '@/constants/path'
 
 export const RegisterHeader = () => {
   const pathMatch = useMatch(path.register)

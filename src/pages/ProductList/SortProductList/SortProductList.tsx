@@ -2,10 +2,10 @@ import classNames from 'classnames'
 import { Dictionary, omit } from 'lodash'
 import { useRef } from 'react'
 import { createSearchParams, useNavigate, Link } from 'react-router-dom'
-import Popover from 'src/components/Popover'
-import path from 'src/constants/path'
-import { orderBy, sortBy } from 'src/constants/product'
-import { ProductListConfig } from 'src/types/product.type'
+import Popover from '@/components/Popover'
+import path from '@/constants/path'
+import { orderBy, sortBy } from '@/constants/product'
+import { ProductListConfig } from '@/types/product.type'
 
 interface Props {
   queryConfig: Dictionary<string>

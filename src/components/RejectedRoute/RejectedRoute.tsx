@@ -1,6 +1,6 @@
 import { useContext } from 'react'
 import { Navigate, Outlet } from 'react-router-dom'
-import { AppContext } from 'src/contexts/app.context'
+import { AppContext } from '@/contexts/app.context'
 
 export const RejectedRoute = () => {
   const { isAuthenticated } = useContext(AppContext)

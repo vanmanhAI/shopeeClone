@@ -1,4 +1,4 @@
-import { User } from 'src/types/user.type'
+import { User } from '@/types/user.type'
 
 export const setAccessTokenToLS = (accessToken: string) => {
   localStorage.setItem('access_token', accessToken)

@@ -1,5 +1,5 @@
 import Joi, { CustomHelpers } from 'joi'
-import { ProductsFilterFormData } from 'src/pages/ProductList/components/AsideFilter/AsideFilter'
+import { ProductsFilterFormData } from '@/pages/ProductList/components/AsideFilter/AsideFilter'
 
 export const schemaCommonAuth = Joi.object({
   email: Joi.string()

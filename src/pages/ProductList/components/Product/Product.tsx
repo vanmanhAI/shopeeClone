@@ -1,27 +1,29 @@
 import { Link } from 'react-router-dom'
-import Button from 'src/components/Button'
-import path from 'src/constants/path'
-import { Product as ProductType } from 'src/types/product.type'
-import { formatNumberToSocialStyle } from 'src/utils/utils'
+import Button from '@/components/Button'
+import path from '@/constants/path'
+import { Product as ProductType } from '@/types/product.type'
+import { formatNumberToSocialStyle } from '@/utils/utils'
 
 interface Props {
   product: ProductType
+  scrollToTop: () => void
 }
 
-export const Product = ({ product }: Props) => {
+export const Product = ({ product, scrollToTop }: Props) => {
   return (
     <Link
+      onClick={scrollToTop}
       to={`${path.home}${product._id}`}
       className={`flex h-full flex-col relative border border-[#00000017] ${product && 'group hover:border-orange z-1 hover:z-[2] hover:shadow-md duration-100 hover:-translate-y-px active:translate-y-0'}`}
     >
       <div className='w-full pt-[100%] flex-shrink-0 relative bg-[#fafafa] bg-[url("https://deo.shopeemobile.com/shopee/modules-federation/live/0/shopee__item-card-standard-v2/0.1.35/pc/a6aac7ccbd908f1d6e29.svg")] bg-no-repeat bg-center'>
         <img
-          className='absolute inset-0 object-contain align-middle size-full'
+          className='absolute top-0 left-0 w-full h-full object-contain align-middle size-full'
           loading='lazy'
           src={product.image}
           alt={product.name}
         />
-        <div className='absolute inset-0 z-5'>
+        <div className='absolute top-0 left-0 w-full h-full z-5'>
           <img
             className='size-full align-middle'
             src='https://down-vn.img.susercontent.com/file/vn-11134258-7r98o-lz6hkeebbl418d'
@@ -39,7 +41,7 @@ export const Product = ({ product }: Props) => {
             <div className='text-sm break-words line-clamp-2 text-[#000000cc]'>
               <img
                 className='mr-[0.125rem] h-[0.875rem] inline align-middle'
-                src='src/assets/images/mall-icon.png'
+                src='@/assets/images/mall-icon.png'
                 alt=''
               />
               {product.name}
@@ -49,9 +51,12 @@ export const Product = ({ product }: Props) => {
                 <span className='mr-px text-xs'>₫</span>
                 <span className='text-base truncate'>{product.price.toLocaleString('vi-VN')}</span>
               </div>
-              <div className='font-medium py-[0.125rem] px-1 text-[0.625rem] mr-1 bg-[#feeeea] rounded-sm'>
-                -{Math.round(((product.price_before_discount - product.price) / product.price_before_discount) * 100)}%
-              </div>
+              {product.price_before_discount - product.price > 0 && (
+                <div className='font-medium py-[0.125rem] px-1 text-[0.625rem] mr-1 bg-[#feeeea] rounded-sm'>
+                  -{Math.round(((product.price_before_discount - product.price) / product.price_before_discount) * 100)}
+                  %
+                </div>
+              )}
             </div>
             <div className='flex flex-col flex-1 justify-between gap-2'>
               <div className='flex h-5 mb-auto items-center space-x-1 text-[.625rem]'>
