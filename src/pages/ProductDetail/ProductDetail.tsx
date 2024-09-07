@@ -182,7 +182,7 @@ export default function ProductDetail() {
                                   <div
                                     className='relative w-full pt-[100%] cursor-pointer bg-whit'
                                     key={img}
-                                    onClick={() => chooseImage(index)}
+                                    onClick={() => chooseImage(img)}
                                   >
                                     <img
                                       className='absolute w-full h-full top-0 left-0 object-contain object-center'
