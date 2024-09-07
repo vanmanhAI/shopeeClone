@@ -5,6 +5,12 @@ import { useContext } from 'react'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { logout } from '@/apis/auth.api'
 import path from '@/constants/path'
+import appQr from '@/assets/images/app-qr.png'
+import appStoreIcon from '@/assets/images/app-store-icon.png'
+import googlePlayIcon from '@/assets/images/google-play-icon.png'
+import appGalleryIcon from '@/assets/images/app-gallery-icon.png'
+import socials from '@/assets/images/socials.png'
+import notificationWithoutAuth from '@/assets/images/notification-without-auth.png'
 
 export const Header = () => {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
@@ -44,23 +50,11 @@ export const Header = () => {
               placement='bottom-start'
               renderPopover={
                 <div className='flex z-1 flex-col w-[11.25rem] p-[0.125rem] overflow-hidden bg-white rounded-sm'>
-                  <img src='/src/assets/images/app-qr.png' alt='app-qr' className='size-[11.25rem]' />
+                  <img src={appQr} alt='app-qr' className='size-[11.25rem]' />
                   <div className='px-[0.9375rem] pb-[0.3125rem] grid grid-cols-2 gap-2 mt-[0.3125rem]'>
-                    <img
-                      src='/src/assets/images/app-store-icon.png'
-                      alt='app-store'
-                      className='col-span-1 flex-shrink-0'
-                    />
-                    <img
-                      src='/src/assets/images/google-play-icon.png'
-                      alt='google-play'
-                      className='col-span-1 flex-shrink-0'
-                    />
-                    <img
-                      src='/src/assets/images/app-gallery-icon.png'
-                      alt='app-gallery'
-                      className='col-span-1 flex-shrink-0'
-                    />
+                    <img src={appStoreIcon} alt='app-store' className='col-span-1 flex-shrink-0' />
+                    <img src={googlePlayIcon} alt='google-play' className='col-span-1 flex-shrink-0' />
+                    <img src={appGalleryIcon} alt='app-gallery' className='col-span-1 flex-shrink-0' />
                   </div>
                 </div>
               }
@@ -73,11 +67,11 @@ export const Header = () => {
             <div className='flex items-center gap-[0.625rem]'>
               <Link
                 to='#'
-                className="size-4 flex-shrink-0 bg-[url('/src/assets/images/socials.png')] bg-[8.064516129032258%_16.129032258064516%] bg-[length:487.5%_293.75%]"
+                className={`size-4 flex-shrink-0 bg-[url('${socials}')] bg-[8.064516129032258%_16.129032258064516%] bg-[length:487.5%_293.75%]`}
               ></Link>
               <Link
                 to='#'
-                className="size-4 flex-shrink-0 bg-[url('/src/assets/images/socials.png')] bg-[58.064516129032256%_16.129032258064516%] bg-[length:487.5%_293.75%]"
+                className={`size-4 flex-shrink-0 bg-[url('${socials}')] bg-[58.064516129032256%_16.129032258064516%] bg-[length:487.5%_293.75%]`}
               ></Link>
             </div>
           </div>
@@ -150,7 +144,7 @@ export const Header = () => {
                   {!isAuthenticated && (
                     <>
                       <div className='flex-grow flex flex-col justify-center items-center'>
-                        <img className='size-[6.25rem]' src='/src/assets/images/notification-without-auth.png' alt='' />
+                        <img className='size-[6.25rem]' src={notificationWithoutAuth} alt='' />
                         <p className='text-center mt-5'>Đăng nhập để xem Thông báo</p>
                       </div>
                       <div className='flex flex-[0_0_2.5rem]'>

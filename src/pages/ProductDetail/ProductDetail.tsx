@@ -13,6 +13,7 @@ import { Dialog } from '@/components/Dialog/context/dialog.context'
 import DialogTrigger from '@/components/Dialog/components/DialogTrigger'
 import DialogContent from '@/components/Dialog/components/DialogContent'
 import DialogHeading from '@/components/Dialog/components/DialogHeading'
+import socialsPost from '@/assets/images/socials-post.png'
 
 export default function ProductDetail() {
   const { nameId } = useParams()
@@ -208,10 +209,18 @@ export default function ProductDetail() {
             <div className='flex items-center justify-center mt-[0.9375rem]'>
               <div className='flex items-center justify-between px-[1.875rem] border-r border-[#00000017] gap-[5px]'>
                 <span className='text-[#222] text-base'>Chia sẻ:</span>
-                <button className='size-[1.5625rem] outline-none relative bg-[url("src/assets/images/socials-post.png")] bg-[length:100%] bg-[0_-100%]'></button>
-                <button className='size-[1.5625rem] outline-none relative bg-[url("src/assets/images/socials-post.png")] bg-[length:100%] bg-[0_0]'></button>
-                <button className='size-[1.5625rem] outline-none relative bg-[url("src/assets/images/socials-post.png")] bg-[length:100%] bg-[0_-300%]'></button>
-                <button className='size-[1.5625rem] outline-none relative bg-[url("src/assets/images/socials-post.png")] bg-[length:100%] bg-[0_-400%]'></button>
+                <button
+                  className={`size-[1.5625rem] outline-none relative bg-[url('${socialsPost}')] bg-[length:100%] bg-[0_-100%]`}
+                ></button>
+                <button
+                  className={`size-[1.5625rem] outline-none relative bg-[url('${socialsPost}')] bg-[length:100%] bg-[0_0]`}
+                ></button>
+                <button
+                  className={`size-[1.5625rem] outline-none relative bg-[url('${socialsPost}')] bg-[length:100%] bg-[0_-300%]`}
+                ></button>
+                <button
+                  className={`size-[1.5625rem] outline-none relative bg-[url('${socialsPost}')] bg-[length:100%] bg-[0_-400%]`}
+                ></button>
               </div>
               <div className='flex-1 flex items-center justify-center'>
                 <button className='border-none outline-none bg-transparent relative flex items-center justify-center gap-[0.625rem]'>

@@ -1,4 +1,8 @@
 import { Link } from 'react-router-dom'
+import appQr from '@/assets/images/app-qr.png'
+import appStoreIcon from '@/assets/images/app-store-icon.png'
+import googlePlayIcon from '@/assets/images/google-play-icon.png'
+import appGalleryIcon from '@/assets/images/app-gallery-icon.png'
 
 interface Props {
   inRegisterLayout?: boolean
@@ -262,22 +266,18 @@ export const Footer = ({ inRegisterLayout }: Props) => {
                 {inRegisterLayout && null}
                 {!inRegisterLayout && (
                   <Link to='#' className='bg-white shadow-sm rounded-sm'>
-                    <img
-                      src='https://down-vn.img.susercontent.com/file/a5e589e8e118e937dc660f224b9a1472'
-                      className='p-1'
-                      alt=''
-                    />
+                    <img src={appQr} className='p-1 size-20' alt='' />
                   </Link>
                 )}
                 <div className='flex flex-col justify-between gap-2 w-[4.75rem]'>
                   <Link to='#' className='p-1 bg-white shadow-sm rounded-sm'>
-                    <img src='@/assets/images/app-store-icon.png' alt='' />
+                    <img src={appStoreIcon} alt='' />
                   </Link>
                   <Link to='#' className='p-1 bg-white shadow-sm rounded-sm'>
-                    <img src='@/assets/images/google-play-icon.png' alt='' />
+                    <img src={googlePlayIcon} alt='' />
                   </Link>
                   <Link to='#' className='p-1 bg-white shadow-sm rounded-sm'>
-                    <img src='@/assets/images/app-gallery-icon.png' alt='' />
+                    <img src={appGalleryIcon} alt='' />
                   </Link>
                 </div>
               </div>
