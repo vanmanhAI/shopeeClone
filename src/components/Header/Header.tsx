@@ -9,7 +9,6 @@ import appQr from '@/assets/images/app-qr.png'
 import appStoreIcon from '@/assets/images/app-store-icon.png'
 import googlePlayIcon from '@/assets/images/google-play-icon.png'
 import appGalleryIcon from '@/assets/images/app-gallery-icon.png'
-import socials from '@/assets/images/socials.png'
 import notificationWithoutAuth from '@/assets/images/notification-without-auth.png'
 
 export const Header = () => {

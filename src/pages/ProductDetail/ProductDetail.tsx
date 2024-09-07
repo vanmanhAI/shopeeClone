@@ -13,7 +13,6 @@ import { Dialog } from '@/components/Dialog/context/dialog.context'
 import DialogTrigger from '@/components/Dialog/components/DialogTrigger'
 import DialogContent from '@/components/Dialog/components/DialogContent'
 import DialogHeading from '@/components/Dialog/components/DialogHeading'
-import socialsPost from '@/assets/images/socials-post.png'
 
 export default function ProductDetail() {
   const { nameId } = useParams()
