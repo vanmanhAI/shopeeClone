@@ -67,11 +67,11 @@ export const Header = () => {
             <div className='flex items-center gap-[0.625rem]'>
               <Link
                 to='#'
-                className={`size-4 flex-shrink-0 bg-[url('${socials}')] bg-[8.064516129032258%_16.129032258064516%] bg-[length:487.5%_293.75%]`}
+                className={`size-4 flex-shrink-0 bg-[url('/src/assets/images/socials.png')] bg-[8.064516129032258%_16.129032258064516%] bg-[length:487.5%_293.75%]`}
               ></Link>
               <Link
                 to='#'
-                className={`size-4 flex-shrink-0 bg-[url('${socials}')] bg-[58.064516129032256%_16.129032258064516%] bg-[length:487.5%_293.75%]`}
+                className={`size-4 flex-shrink-0 bg-[url('/src/assets/images/socials.png')] bg-[58.064516129032256%_16.129032258064516%] bg-[length:487.5%_293.75%]`}
               ></Link>
             </div>
           </div>

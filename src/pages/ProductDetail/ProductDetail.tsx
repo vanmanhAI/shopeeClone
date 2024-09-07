@@ -210,16 +210,28 @@ export default function ProductDetail() {
               <div className='flex items-center justify-between px-[1.875rem] border-r border-[#00000017] gap-[5px]'>
                 <span className='text-[#222] text-base'>Chia sẻ:</span>
                 <button
-                  className={`size-[1.5625rem] outline-none relative bg-[url('${socialsPost}')] bg-[length:100%] bg-[0_-100%]`}
+                  title='messenger'
+                  type='button'
+                  aria-label='messenger'
+                  className={`size-[1.5625rem] outline-none relative bg-[url('/src/assets/images/socials-post.png')] bg-[length:100%] bg-[0_-100%]`}
                 ></button>
                 <button
-                  className={`size-[1.5625rem] outline-none relative bg-[url('${socialsPost}')] bg-[length:100%] bg-[0_0]`}
+                  title='facebook'
+                  type='button'
+                  aria-label='facebook'
+                  className={`size-[1.5625rem] outline-none relative bg-[url('/src/assets/images/socials-post.png')] bg-[length:100%] bg-[0_0]`}
                 ></button>
                 <button
-                  className={`size-[1.5625rem] outline-none relative bg-[url('${socialsPost}')] bg-[length:100%] bg-[0_-300%]`}
+                  title='pinterest'
+                  type='button'
+                  aria-label='pinterest'
+                  className={`size-[1.5625rem] outline-none relative bg-[url('/src/assets/images/socials-post.png')] bg-[length:100%] bg-[0_-300%]`}
                 ></button>
                 <button
-                  className={`size-[1.5625rem] outline-none relative bg-[url('${socialsPost}')] bg-[length:100%] bg-[0_-400%]`}
+                  title='twitter'
+                  type='button'
+                  aria-label='twitter'
+                  className={`size-[1.5625rem] outline-none relative bg-[url('/src/assets/images/socials-post.png')] bg-[length:100%] bg-[0_-400%]`}
                 ></button>
               </div>
               <div className='flex-1 flex items-center justify-center'>
