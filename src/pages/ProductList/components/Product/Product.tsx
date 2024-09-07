@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import Button from '@/components/Button'
 import path from '@/constants/path'
 import { Product as ProductType } from '@/types/product.type'
-import { formatNumberToSocialStyle } from '@/utils/utils'
+import { formatNumberToSocialStyle, genNameId } from '@/utils/utils'
 
 interface Props {
   product: ProductType
@@ -13,7 +13,7 @@ export const Product = ({ product, scrollToTop }: Props) => {
   return (
     <Link
       onClick={scrollToTop}
-      to={`${path.home}${product._id}`}
+      to={`${path.home}${genNameId({ name: product.name, id: product._id })}`}
       className={`flex h-full flex-col relative border border-[#00000017] ${product && 'group hover:border-orange z-1 hover:z-[2] hover:shadow-md duration-100 hover:-translate-y-px active:translate-y-0'}`}
     >
       <div className='w-full pt-[100%] flex-shrink-0 relative bg-[#fafafa] bg-[url("https://deo.shopeemobile.com/shopee/modules-federation/live/0/shopee__item-card-standard-v2/0.1.35/pc/a6aac7ccbd908f1d6e29.svg")] bg-no-repeat bg-center'>

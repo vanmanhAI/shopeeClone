@@ -7,12 +7,13 @@ import path from '@/constants/path'
 import MainLayout from '@/layouts/MainLayout'
 import RegisterLayout from '@/layouts/RegisterLayout'
 import Login from '@/pages/Login'
-import ProductDetail from '@/pages/ProductDetail'
 const ProductList = lazy(() => import('@/pages/ProductList/ProductList'))
+const ProductDetail = lazy(() => import('@/pages/ProductDetail/ProductDetail'))
 import Profile from '@/pages/ProductList/Profile'
 import Register from '@/pages/ProductList/Register'
 import { QueryClient } from '@tanstack/react-query'
 import Spinner from '@/components/Spinner'
+import FallBack from '@/pages/ProductDetail/components/FallBack'
 
 const queryClientConfig = {
   defaultOptions: {
@@ -89,7 +90,7 @@ export const router = createBrowserRouter([
       {
         path: path.productDetail,
         element: (
-          <Suspense>
+          <Suspense fallback={<FallBack />}>
             <ProductDetail />
           </Suspense>
         )
