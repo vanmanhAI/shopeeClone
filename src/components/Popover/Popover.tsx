@@ -9,13 +9,15 @@ import {
   Placement,
   safePolygon,
   shift,
+  size,
   useFloating,
+  useFocus,
+  useHover,
   useInteractions,
   useTransitionStyles
 } from '@floating-ui/react'
 import { useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
-import { useHover } from '@floating-ui/react'
 
 interface PopoverProps {
   children: React.ReactNode
@@ -31,6 +33,11 @@ interface PopoverProps {
   applyAnimation?: boolean
   strokeArrowColor?: string
   strokeArrowWidth?: number
+  isSameLengthAsReference?: boolean
+  minusFloatingWidth?: number
+  isChangePositionX?: boolean
+  isApplyHover?: boolean
+  isApplySearchInputEvent?: boolean
 }
 
 export const Popover = ({
@@ -46,7 +53,12 @@ export const Popover = ({
   placement = 'bottom-end',
   applyAnimation = true,
   strokeArrowWidth = 2,
-  strokeArrowColor = 'transparent'
+  strokeArrowColor = 'transparent',
+  isSameLengthAsReference = false,
+  minusFloatingWidth = 0,
+  isChangePositionX = true,
+  isApplySearchInputEvent = false,
+  isApplyHover = true
 }: PopoverProps) => {
   const [isOpen, setIsOpen] = useState(initialOpen || false)
   const arrowRef = useRef<SVGSVGElement>(null)
@@ -54,7 +66,19 @@ export const Popover = ({
   const { refs, floatingStyles, context, middlewareData } = useFloating({
     open: isOpen,
     onOpenChange: setIsOpen,
-    middleware: [offset(offsetOptions), flip(), shift(), arrow({ element: arrowRef })],
+    middleware: [
+      offset(offsetOptions),
+      flip(),
+      shift({ mainAxis: isChangePositionX }),
+      arrow({ element: arrowRef }),
+      size({
+        apply({ rects, elements }) {
+          Object.assign(elements.floating.style, {
+            width: isSameLengthAsReference ? `${rects.reference.width - minusFloatingWidth}px` : 'auto'
+          })
+        }
+      })
+    ],
     placement,
     whileElementsMounted: autoUpdate
   })
@@ -74,20 +98,45 @@ export const Popover = ({
         right: `${-arrowHeight}px ${transformY}px`
       }[side],
       transitionDuration: applyAnimation ? '0.2s' : '0s'
-    })
+    }),
+    duration: applyAnimation ? 250 : 0
   })
 
   const hover = useHover(context, {
-    handleClose: safePolygon()
+    handleClose: safePolygon(),
+    enabled: isApplyHover
   })
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover])
+  const focus = useFocus(context, {
+    enabled: !isApplyHover
+  })
+
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      setIsOpen(false)
+    }
+  }
+
+  const optionSearchInput = isApplySearchInputEvent
+    ? {
+        onKeyDown: handleKeyDown,
+        onChange: () => setIsOpen(true)
+      }
+    : {}
+
+  const searchInputSuggestions = isApplySearchInputEvent
+    ? {
+        onClick: () => setIsOpen(false)
+      }
+    : {}
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([focus, hover])
 
   return (
-    <Element ref={refs.setReference} {...getReferenceProps()} className={className}>
+    <Element ref={refs.setReference} {...getReferenceProps(optionSearchInput)} className={className}>
       {children}
       <FloatingPortal>
-        <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps()}>
+        <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps(searchInputSuggestions)}>
           {applyAnimation && (
             <AnimatePresence>
               {isMounted && (

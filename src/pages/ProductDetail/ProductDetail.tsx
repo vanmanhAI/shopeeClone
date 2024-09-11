@@ -13,12 +13,13 @@ import { Dialog } from '@/components/Dialog/context/dialog.context'
 import DialogTrigger from '@/components/Dialog/components/DialogTrigger'
 import DialogContent from '@/components/Dialog/components/DialogContent'
 import DialogHeading from '@/components/Dialog/components/DialogHeading'
+import { QUERY_KEYS } from '@/constants/queryKeys'
 
 export default function ProductDetail() {
   const { nameId } = useParams()
   const id = getIdFromNameId(nameId as string)
   const { data: productDetailData } = useSuspenseQuery({
-    queryKey: ['product', id],
+    queryKey: [QUERY_KEYS.GET_PRODUCT_BY_ID, id],
     queryFn: () => getProductDetail(id as string)
   })
   const product = productDetailData.data.data

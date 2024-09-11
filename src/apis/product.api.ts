@@ -11,3 +11,7 @@ export const getProducts = (params: ProductListConfig) => {
 export const getProductDetail = (id: string) => {
   return http.get<SuccessResponse<Product>>(`${URL}/${id}`)
 }
+
+export const searchProducts = (name: string) => {
+  return http.get<SuccessResponse<ProductList>>(URL, { params: { name } })
+}

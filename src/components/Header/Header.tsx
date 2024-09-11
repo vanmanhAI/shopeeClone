@@ -10,9 +10,12 @@ import appStoreIcon from '@/assets/images/app-store-icon.png'
 import googlePlayIcon from '@/assets/images/google-play-icon.png'
 import appGalleryIcon from '@/assets/images/app-gallery-icon.png'
 import notificationWithoutAuth from '@/assets/images/notification-without-auth.png'
+import SearchProduct from '@/components/SearchProduct'
+import { QUERY_KEYS } from '@/constants/queryKeys'
 
 export const Header = () => {
   const { isAuthenticated, setIsAuthenticated, profile, setProfile } = useContext(AppContext)
+
   const queryClient = useQueryClient()
   const logoutMutation = useMutation({
     mutationFn: logout,
@@ -20,7 +23,7 @@ export const Header = () => {
       setProfile(null)
       setIsAuthenticated(false)
       queryClient.removeQueries({
-        queryKey: ['products']
+        queryKey: [QUERY_KEYS.GET_PRODUCTS]
       })
     }
   })
@@ -314,32 +317,7 @@ export const Header = () => {
             </svg>
           </Link>
           <div className='col-span-9 max-w-[52.5rem] flex-col justify-start'>
-            <form>
-              <div className='bg-white h-10 rounded-sm p-[0.1875rem] flex'>
-                <input
-                  type='text'
-                  name='search'
-                  placeholder='FREESHIP ĐƠN TỪ 0Đ'
-                  className='text-[#000000cc] px-3 py-2 text-sm flex-grow border-none outline-none bg-transparent'
-                />
-                <button className='rounded-sm flex justify-center items-center bg-orange py-2 px-[1.375rem] flex-shrink-0 hover:opacity-90'>
-                  <svg
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                    strokeWidth={1.5}
-                    stroke='white'
-                    className='size-[1.1875rem]'
-                  >
-                    <path
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      d='m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z'
-                    />
-                  </svg>
-                </button>
-              </div>
-            </form>
+            <SearchProduct placeHolder='FREESHIP ĐƠN TỪ 0Đ' />
             <div className='flex items-center gap-[0.8125rem] w-fullk text-xs text-[#ffffffe6]'>
               <Link to='#' className='py-[0.3125rem]'>
                 Áo Polo Nam

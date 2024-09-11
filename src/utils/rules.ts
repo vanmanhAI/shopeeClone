@@ -1,5 +1,6 @@
 import Joi, { CustomHelpers } from 'joi'
 import { ProductsFilterFormData } from '@/pages/ProductList/components/AsideFilter/AsideFilter'
+import { SearchProductFormData } from '@/components/SearchProduct/SearchProduct'
 
 export const schemaCommonAuth = Joi.object({
   email: Joi.string()
@@ -54,3 +55,7 @@ export const schemaProductsFilter = Joi.object<ProductsFilterFormData>({
   .messages({
     'value.invalid': 'Vui lòng điền khoảng giá phù hợp'
   })
+
+export const schemaSearch = Joi.object<SearchProductFormData>({
+  name: Joi.string()
+})
