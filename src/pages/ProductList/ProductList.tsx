@@ -111,7 +111,7 @@ const ProductList = () => {
                     ))}
                   </div>
                   <Pagination
-                    queryConfig={queryConfig}
+                    queryConfig={queryConfig as Dictionary<string>}
                     scrollToTop={scrollToTop}
                     pageSize={productData.data.data.pagination.page_size}
                   />
