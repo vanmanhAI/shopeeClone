@@ -1,6 +1,4 @@
-import { joiResolver } from '@hookform/resolvers/joi'
 import { useMutation } from '@tanstack/react-query'
-import Joi from 'joi'
 import { useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate } from 'react-router-dom'
@@ -10,15 +8,12 @@ import Input from '@/components/Input'
 import path from '@/constants/path'
 import { AppContext } from '@/contexts/app.context'
 import { ErrorResponse } from '@/types/utils.type'
-import { schemaCommonAuth } from '@/utils/rules'
 import { isUnprocessableEntityAxiosError } from '@/utils/utils'
 
 interface LoginForm {
   email: string
   password: string
 }
-
-const schema = Joi.object().concat(schemaCommonAuth)
 
 export const Login = () => {
   const {
@@ -27,9 +22,7 @@ export const Login = () => {
     reset,
     setError,
     formState: { errors }
-  } = useForm<LoginForm>({
-    resolver: joiResolver(schema)
-  })
+  } = useForm<LoginForm>()
 
   const { setIsAuthenticated, setProfile } = useContext(AppContext)
 

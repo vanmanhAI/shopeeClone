@@ -33,7 +33,7 @@ export const Header = () => {
   }
 
   return (
-    <div className='bg-[#f53d2d] bg-[linear-gradient(-180deg,#f53d2d,#f63)]'>
+    <div className='relative z-[1] bg-[#f53d2d] bg-[linear-gradient(-180deg,#f53d2d,#f63)]'>
       <div className='container'>
         <div className='flex justify-between text-[0.8125rem] text-white'>
           <div className='flex items-center'>
@@ -50,6 +50,7 @@ export const Header = () => {
               arrowColor='transparent'
               applyAnimation={false}
               placement='bottom-start'
+              zIndex={20}
               renderPopover={
                 <div className='flex z-1 flex-col w-[11.25rem] p-[0.125rem] overflow-hidden bg-white rounded-sm'>
                   <img src={appQr} alt='app-qr' className='size-[11.25rem]' />
@@ -79,9 +80,11 @@ export const Header = () => {
           </div>
           <div className='flex items-center justify-end h-[2.125rem]'>
             <Popover
+              placement='bottom-end'
+              zIndex={20}
               renderPopover={
                 <div
-                  className={`flex z-10 flex-col border border-gray-300 overflow-hidden bg-white rounded-sm shadow-[0_1px_3.125rem_0_rgba(0,0,0,.2)] text-sm w-[25rem] ${!isAuthenticated && 'h-[21.875rem] text-[#000000cc]'}`}
+                  className={`relative flex z-20 flex-col border border-gray-300 overflow-hidden bg-white rounded-sm shadow-[0_1px_3.125rem_0_rgba(0,0,0,.2)] text-sm w-[25rem] ${!isAuthenticated && 'h-[21.875rem] text-[#000000cc]'}`}
                 >
                   {isAuthenticated && (
                     <>
@@ -168,7 +171,10 @@ export const Header = () => {
                 </div>
               }
             >
-              <Link to='#' className='flex items-center mr-[0.1875rem] py-1 cursor-pointer hover:text-gray-300'>
+              <Link
+                to='#'
+                className='relative flex items-center mr-[0.1875rem] py-1 cursor-pointer hover:text-gray-300'
+              >
                 <svg viewBox='3 2.5 14 14' x={0} y={0} className='w-[0.875rem] h-[1.125rem] fill-current'>
                   <path d='m17 15.6-.6-1.2-.6-1.2v-7.3c0-.2 0-.4-.1-.6-.3-1.2-1.4-2.2-2.7-2.2h-1c-.3-.7-1.1-1.2-2.1-1.2s-1.8.5-2.1 1.3h-.8c-1.5 0-2.8 1.2-2.8 2.7v7.2l-1.2 2.5-.2.4h14.4zm-12.2-.8.1-.2.5-1v-.1-7.6c0-.8.7-1.5 1.5-1.5h6.1c.8 0 1.5.7 1.5 1.5v7.5.1l.6 1.2h-10.3z' />
                   <path d='m10 18c1 0 1.9-.6 2.3-1.4h-4.6c.4.9 1.3 1.4 2.3 1.4z' />
@@ -191,10 +197,11 @@ export const Header = () => {
                   d='M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z'
                 />
               </svg>
-
               <span className='mx-1'>Hỗ trợ</span>
             </Link>
             <Popover
+              placement='bottom-end'
+              zIndex={20}
               renderPopover={
                 <div className='bg-white border border-gray-300 rounded-sm shadow-[0_.0625rem_3.125rem_0_rgba(0,0,0,.2)] flex flex-col overflow-hidden min-w-[12.5rem] text-sm cursor-pointer'>
                   <button className='text-left p-[0.625rem] hover:text-orange'>
@@ -240,6 +247,8 @@ export const Header = () => {
               <Popover
                 className='flex items-center px-[0.625rem] py-[0.4375rem] cursor-pointer hover:text-gray-300'
                 offsetOptions={{ crossAxis: 0 }}
+                placement='bottom-end'
+                zIndex={20}
                 renderPopover={
                   <div className='flex flex-col z-1 min-w-[9.375rem] overflow-hidden bg-white rounded-sm border-sm shadow-[0_.0625rem_3.125rem_0_rgba(0,0,0,.2)]'>
                     <Link
@@ -345,6 +354,7 @@ export const Header = () => {
           <Popover
             className='col-span-1 self-start'
             offsetOptions={{ crossAxis: -20 }}
+            zIndex={20}
             renderPopover={
               <div className='bg-white z-1 overflow-hidden shadow-[0_1px_3.125rem_0_rgba(0,0,0,.2)] border border-gray-300 w-[25rem] rounded-sm flex flex-col text-sm'>
                 <h3 className='pl-[10px] h-10 flex items-center text-[#00000042] capitalize font-[400]'>

@@ -1,6 +1,6 @@
 import { useSuspenseQuery } from '@tanstack/react-query'
 import { Link, useParams } from 'react-router-dom'
-import { getProductDetail } from '@/apis/product.api'
+import { getProductDetail, getProducts } from '@/apis/product.api'
 import BreadCrumb from '@/components/BreadCrumb'
 import ProductRating from '@/components/ProductRating'
 import { formatNumberToSocialStyle, getIdFromNameId } from '@/utils/utils'
@@ -14,6 +14,7 @@ import DialogTrigger from '@/components/Dialog/components/DialogTrigger'
 import DialogContent from '@/components/Dialog/components/DialogContent'
 import DialogHeading from '@/components/Dialog/components/DialogHeading'
 import { QUERY_KEYS } from '@/constants/queryKeys'
+import { ProductListConfig } from '@/types/product.type'
 
 export default function ProductDetail() {
   const { nameId } = useParams()
@@ -23,6 +24,14 @@ export default function ProductDetail() {
     queryFn: () => getProductDetail(id as string)
   })
   const product = productDetailData.data.data
+
+  const queryConfig: ProductListConfig = { page: '1', limit: '30', category: product.category._id }
+  const { data: relatedProductsData } = useSuspenseQuery({
+    queryKey: [QUERY_KEYS.GET_PRODUCTS, queryConfig],
+    queryFn: () => getProducts(queryConfig)
+  })
+
+  console.log(relatedProductsData.data.data)
 
   const [currentImagesRange, setCurrentImagesRange] = useState([0, 5])
   const [activeImage, setActiveImage] = useState(product.image)

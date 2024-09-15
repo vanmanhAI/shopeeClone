@@ -11,7 +11,6 @@ import {
   shift,
   size,
   useFloating,
-  useFocus,
   useHover,
   useInteractions,
   useTransitionStyles
@@ -30,14 +29,14 @@ interface PopoverProps {
   as?: React.ElementType
   initialOpen?: boolean
   placement?: Placement
+  refPressEvent?: 'hover' | 'click'
   applyAnimation?: boolean
   strokeArrowColor?: string
   strokeArrowWidth?: number
   isSameLengthAsReference?: boolean
   minusFloatingWidth?: number
   isChangePositionX?: boolean
-  isApplyHover?: boolean
-  isApplySearchInputEvent?: boolean
+  zIndex?: number
 }
 
 export const Popover = ({
@@ -50,15 +49,15 @@ export const Popover = ({
   arrowColor = 'white',
   as: Element = 'div',
   initialOpen,
-  placement = 'bottom-end',
+  refPressEvent = 'hover',
+  placement = 'bottom-start',
   applyAnimation = true,
   strokeArrowWidth = 2,
   strokeArrowColor = 'transparent',
   isSameLengthAsReference = false,
   minusFloatingWidth = 0,
   isChangePositionX = true,
-  isApplySearchInputEvent = false,
-  isApplyHover = true
+  zIndex = 1
 }: PopoverProps) => {
   const [isOpen, setIsOpen] = useState(initialOpen || false)
   const arrowRef = useRef<SVGSVGElement>(null)
@@ -104,39 +103,16 @@ export const Popover = ({
 
   const hover = useHover(context, {
     handleClose: safePolygon(),
-    enabled: isApplyHover
+    enabled: refPressEvent === 'hover'
   })
 
-  const focus = useFocus(context, {
-    enabled: !isApplyHover
-  })
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
-      setIsOpen(false)
-    }
-  }
-
-  const optionSearchInput = isApplySearchInputEvent
-    ? {
-        onKeyDown: handleKeyDown,
-        onChange: () => setIsOpen(true)
-      }
-    : {}
-
-  const searchInputSuggestions = isApplySearchInputEvent
-    ? {
-        onClick: () => setIsOpen(false)
-      }
-    : {}
-
-  const { getReferenceProps, getFloatingProps } = useInteractions([focus, hover])
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover])
 
   return (
-    <Element ref={refs.setReference} {...getReferenceProps(optionSearchInput)} className={className}>
+    <Element ref={refs.setReference} {...getReferenceProps()} className={className}>
       {children}
       <FloatingPortal>
-        <div ref={refs.setFloating} style={floatingStyles} {...getFloatingProps(searchInputSuggestions)}>
+        <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: zIndex }} {...getFloatingProps()}>
           {applyAnimation && (
             <AnimatePresence>
               {isMounted && (
@@ -144,7 +120,6 @@ export const Popover = ({
                   {renderPopover}
                   <FloatingArrow
                     stroke={strokeArrowColor}
-                    style={{ transform: 'translateY(-2px)' }}
                     fill={arrowColor}
                     strokeWidth={strokeArrowWidth}
                     ref={arrowRef}
