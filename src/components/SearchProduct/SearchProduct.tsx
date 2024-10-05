@@ -71,7 +71,7 @@ export default function SearchProduct({ placeHolder }: Props) {
   const { data } = useQuery({
     queryKey: [QUERY_KEYS.SEARCH_PRODUCTS, debouncedValue],
     queryFn: () => searchProducts(debouncedValue),
-    enabled: !!debouncedValue
+    enabled: Boolean(debouncedValue)
   })
 
   const searchProductsResult = data?.data.data.products

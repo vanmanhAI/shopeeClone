@@ -37,7 +37,7 @@ export const Login = () => {
       onSuccess: (data) => {
         setProfile(data.data.data.user)
         setIsAuthenticated(true)
-        navigate('/')
+        navigate(-1)
         reset()
       },
       onError(error) {

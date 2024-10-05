@@ -4,6 +4,8 @@ const path = {
   login: '/login',
   logout: '/logout',
   productDetail: ':nameId',
+  cart: '/cart',
+  user: '/user',
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
   profile: 'profile',

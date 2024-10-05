@@ -10,17 +10,21 @@ import {
   safePolygon,
   shift,
   size,
+  useClick,
   useFloating,
   useHover,
   useInteractions,
+  useMergeRefs,
   useTransitionStyles
 } from '@floating-ui/react'
-import { useRef, useState } from 'react'
+import { forwardRef, HTMLProps, useRef, useState } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 
 interface PopoverProps {
+  open?: boolean
+  onOpenChange?: (open: boolean) => void
   children: React.ReactNode
-  renderPopover: React.ReactNode
+  renderPopover: React.ReactNode | null
   className?: string
   offsetOptions?: OffsetOptions
   arrowWidth?: number
@@ -29,7 +33,7 @@ interface PopoverProps {
   as?: React.ElementType
   initialOpen?: boolean
   placement?: Placement
-  refPressEvent?: 'hover' | 'click'
+  refPressEvent?: 'hover' | 'click' | 'none'
   applyAnimation?: boolean
   strokeArrowColor?: string
   strokeArrowWidth?: number
@@ -37,37 +41,46 @@ interface PopoverProps {
   minusFloatingWidth?: number
   isChangePositionX?: boolean
   zIndex?: number
+  isShowAtRoot?: boolean
 }
 
-export const Popover = ({
-  children,
-  renderPopover,
-  className,
-  offsetOptions,
-  arrowWidth = 20,
-  arrowHeight = 7,
-  arrowColor = 'white',
-  as: Element = 'div',
-  initialOpen,
-  refPressEvent = 'hover',
-  placement = 'bottom-start',
-  applyAnimation = true,
-  strokeArrowWidth = 2,
-  strokeArrowColor = 'transparent',
-  isSameLengthAsReference = false,
-  minusFloatingWidth = 0,
-  isChangePositionX = true,
-  zIndex = 1
-}: PopoverProps) => {
-  const [isOpen, setIsOpen] = useState(initialOpen || false)
+export const Popover = forwardRef<HTMLElement, HTMLProps<HTMLElement> & PopoverProps>(function Popover(
+  {
+    open: controlledOpen,
+    onOpenChange: setControlledOpen,
+    children,
+    renderPopover,
+    className,
+    offsetOptions,
+    arrowWidth = 20,
+    arrowHeight = 7,
+    arrowColor = 'white',
+    as: Element = 'div',
+    initialOpen = false,
+    refPressEvent = 'hover',
+    placement = 'bottom-start',
+    applyAnimation = true,
+    strokeArrowWidth = 2,
+    strokeArrowColor = 'transparent',
+    isSameLengthAsReference = false,
+    minusFloatingWidth = 0,
+    isChangePositionX = true,
+    zIndex = 1,
+    isShowAtRoot = true,
+    ...props
+  },
+  propRef
+) {
+  const [uncontrolledOpen, setUncontrolledOpen] = useState(initialOpen)
+  const open = controlledOpen ?? uncontrolledOpen
+  const setOpen = setControlledOpen ?? setUncontrolledOpen
   const arrowRef = useRef<SVGSVGElement>(null)
 
   const { refs, floatingStyles, context, middlewareData } = useFloating({
-    open: isOpen,
-    onOpenChange: setIsOpen,
+    open: open,
+    onOpenChange: setOpen,
     middleware: [
       offset(offsetOptions),
-      flip(),
       shift({ mainAxis: isChangePositionX }),
       arrow({ element: arrowRef }),
       size({
@@ -103,51 +116,111 @@ export const Popover = ({
 
   const hover = useHover(context, {
     handleClose: safePolygon(),
-    enabled: refPressEvent === 'hover'
+    enabled: refPressEvent === 'hover' && controlledOpen == null
   })
 
-  const { getReferenceProps, getFloatingProps } = useInteractions([hover])
+  const click = useClick(context, {
+    enabled: refPressEvent === 'click' && controlledOpen == null
+  })
+
+  const ref = useMergeRefs([propRef, refs.setReference])
+
+  const { getReferenceProps, getFloatingProps } = useInteractions([hover, click])
+
+  const handleClickFloatingElement = (event: React.MouseEvent) => {
+    if (controlledOpen !== null) {
+      event.stopPropagation()
+    }
+  }
 
   return (
-    <Element ref={refs.setReference} {...getReferenceProps()} className={className}>
+    <Element ref={ref} {...getReferenceProps(props)} className={className}>
       {children}
-      <FloatingPortal>
-        <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: zIndex }} {...getFloatingProps()}>
-          {applyAnimation && (
-            <AnimatePresence>
-              {isMounted && (
-                <motion.div style={styles}>
-                  {renderPopover}
-                  <FloatingArrow
-                    stroke={strokeArrowColor}
-                    fill={arrowColor}
-                    strokeWidth={strokeArrowWidth}
-                    ref={arrowRef}
-                    context={context}
-                    width={arrowWidth}
-                    height={arrowHeight}
-                  />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          )}
-          {!applyAnimation && isMounted && (
-            <>
-              {renderPopover}
-              <FloatingArrow
-                stroke={strokeArrowColor}
-                style={{ transform: 'translateY(-2px)' }}
-                fill={arrowColor}
-                strokeWidth={strokeArrowWidth}
-                ref={arrowRef}
-                context={context}
-                width={arrowWidth}
-                height={arrowHeight}
-              />
-            </>
-          )}
-        </div>
-      </FloatingPortal>
+      {isShowAtRoot && (
+        <FloatingPortal>
+          <div
+            ref={refs.setFloating}
+            style={{ ...floatingStyles, zIndex: zIndex }}
+            {...getFloatingProps()}
+            onClick={handleClickFloatingElement}
+          >
+            {applyAnimation && (
+              <AnimatePresence>
+                {isMounted && (
+                  <motion.div style={styles}>
+                    {renderPopover}
+                    <FloatingArrow
+                      stroke={strokeArrowColor}
+                      fill={arrowColor}
+                      strokeWidth={strokeArrowWidth}
+                      style={{ transform: 'translateY(-2px)' }}
+                      ref={arrowRef}
+                      context={context}
+                      width={arrowWidth}
+                      height={arrowHeight}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            )}
+            {!applyAnimation && isMounted && (
+              <>
+                {renderPopover}
+                <FloatingArrow
+                  stroke={strokeArrowColor}
+                  style={{ transform: 'translateY(-2px)' }}
+                  fill={arrowColor}
+                  strokeWidth={strokeArrowWidth}
+                  ref={arrowRef}
+                  context={context}
+                  width={arrowWidth}
+                  height={arrowHeight}
+                />
+              </>
+            )}
+          </div>
+        </FloatingPortal>
+      )}
+      {!isShowAtRoot && (
+        <>
+          <div ref={refs.setFloating} style={{ ...floatingStyles, zIndex: zIndex }} {...getFloatingProps()}>
+            {applyAnimation && (
+              <AnimatePresence>
+                {isMounted && (
+                  <motion.div style={styles}>
+                    {renderPopover}
+                    <FloatingArrow
+                      stroke={strokeArrowColor}
+                      fill={arrowColor}
+                      strokeWidth={strokeArrowWidth}
+                      style={{ transform: 'translateY(-2px)' }}
+                      ref={arrowRef}
+                      context={context}
+                      width={arrowWidth}
+                      height={arrowHeight}
+                    />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            )}
+            {!applyAnimation && isMounted && (
+              <>
+                {renderPopover}
+                <FloatingArrow
+                  stroke={strokeArrowColor}
+                  style={{ transform: 'translateY(-2px)' }}
+                  fill={arrowColor}
+                  strokeWidth={strokeArrowWidth}
+                  ref={arrowRef}
+                  context={context}
+                  width={arrowWidth}
+                  height={arrowHeight}
+                />
+              </>
+            )}
+          </div>
+        </>
+      )}
     </Element>
   )
-}
+})

@@ -6,9 +6,9 @@ export default function FallBack() {
         <section className='flex mt-5 bg-white rounded-md shadow-sm'>
           <figure className='flex-shrink-0 w-[480px] p-[0.9375rem] flex-col'>
             <div className='flex flex-col'>
-              <div className='relative w-full pt-[100%]'>
+              <div className='relative w-full pt-[100%] '>
                 <div className='absolute top-0 left-0 w-full h-full bg-white flex items-center justify-center'>
-                  <div className='size-[7.5rem] max-w-full max-h-full'>
+                  <div className='size-[7.5rem] w-full max-h-full'>
                     <svg xmlns='http://www.w3.org/2000/svg' fill='#e5e4e4' viewBox='0 0 54 61' className='size-full'>
                       <path
                         stroke='none'

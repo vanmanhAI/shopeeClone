@@ -42,7 +42,8 @@ export default {
       addComponents({
         '.container': {
           maxWidth: theme('minWidth.custom-1200'),
-          margin: '0 auto',
+          marginLeft: 'auto',
+          marginRight: 'auto',
           width: 'calc(100% - 2rem)'
         }
       })

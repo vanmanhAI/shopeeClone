@@ -104,7 +104,6 @@ export default function useSelect({
     activeIndex,
     selectedIndex,
     onNavigate: setActiveIndex,
-    focusItemOnHover: false,
     loop: true
   })
 

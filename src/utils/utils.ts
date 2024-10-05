@@ -8,14 +8,17 @@ export const isUnprocessableEntityAxiosError = <T>(error: unknown): error is Axi
   return isAxiosError(error) && error.response?.status === HttpStatusCode.UnprocessableEntity
 }
 
-export const formatNumberToSocialStyle = (number: number) => {
-  return new Intl.NumberFormat('en', {
+export const formatNumberToSocialStyle = (number: number, maximumFractionDigits = 1) => {
+  const result = new Intl.NumberFormat('en', {
     notation: 'compact',
-    maximumFractionDigits: 1
+    maximumFractionDigits
   })
     .format(number)
+    .replace('M', 'tr')
     .replace('.', ',')
     .toLowerCase()
+
+  return result
 }
 
 export const removeSpecialCharacter = (str: string) =>
@@ -29,4 +32,10 @@ export const genNameId = ({ name, id }: { name: string; id: string }) => {
 export const getIdFromNameId = (nameId: string) => {
   const arr = nameId.split('-i-')
   return arr[arr.length - 1]
+}
+
+export const scrollToTop = () => {
+  window.scrollTo({
+    top: 0
+  })
 }

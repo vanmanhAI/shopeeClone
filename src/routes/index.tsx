@@ -14,6 +14,7 @@ import Register from '@/pages/ProductList/Register'
 import { QueryClient } from '@tanstack/react-query'
 import Spinner from '@/components/Spinner'
 import FallBack from '@/pages/ProductDetail/components/FallBack'
+import Cart from '@/pages/Cart'
 
 const queryClientConfig = {
   defaultOptions: {
@@ -60,7 +61,6 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
-        path: '/user',
         element: <MainLayout />,
         children: [
           {
@@ -68,6 +68,14 @@ export const router = createBrowserRouter([
             element: (
               <Suspense>
                 <Profile />
+              </Suspense>
+            )
+          },
+          {
+            path: path.cart,
+            element: (
+              <Suspense>
+                <Cart />
               </Suspense>
             )
           }

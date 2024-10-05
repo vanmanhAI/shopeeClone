@@ -5,12 +5,18 @@ export interface DialogOptions {
   initialOpen?: boolean
   open?: boolean
   onOpenChange?: (open: boolean) => void
+  isLockScroll?: boolean
+  closeByEscapeOrClickOutside?: boolean
+  disableFocusManagement?: boolean
 }
 
 export default function useDialog({
   initialOpen = false,
   open: controlledOpen,
-  onOpenChange: setControlledOpen
+  onOpenChange: setControlledOpen,
+  isLockScroll = true,
+  closeByEscapeOrClickOutside = true,
+  disableFocusManagement = false
 }: DialogOptions = {}) {
   const [uncontrolledOpen, setUncontrolledOpen] = React.useState(initialOpen)
   const [labelId, setLabelId] = React.useState<string | undefined>()
@@ -36,7 +42,7 @@ export default function useDialog({
   const click = useClick(context, {
     enabled: controlledOpen == null
   })
-  const dismiss = useDismiss(context, { outsidePressEvent: 'mousedown' })
+  const dismiss = useDismiss(context, { outsidePressEvent: 'mousedown', enabled: closeByEscapeOrClickOutside })
   const role = useRole(context)
 
   const interactions = useInteractions([click, dismiss, role])
@@ -50,8 +56,10 @@ export default function useDialog({
       labelId,
       descriptionId,
       setLabelId,
-      setDescriptionId
+      setDescriptionId,
+      disableFocusManagement,
+      isLockScroll
     }),
-    [open, setOpen, interactions, data, labelId, descriptionId]
+    [open, setOpen, interactions, data, labelId, descriptionId, isLockScroll, disableFocusManagement]
   )
 }

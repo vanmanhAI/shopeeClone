@@ -1,8 +1,7 @@
 import { Dictionary, omit } from 'lodash'
-import { Controller, useForm } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { createSearchParams, useNavigate } from 'react-router-dom'
 import Button from '@/components/Button'
-import InputNumber from '@/components/InputNumber'
 import path from '@/constants/path'
 import { Category } from '@/types/category.type'
 import { joiResolver } from '@hookform/resolvers/joi'
@@ -10,21 +9,20 @@ import { ProductListConfig } from '@/types/product.type'
 import { schemaProductsFilter } from '@/utils/rules'
 import RatingStars from '@/components/RatingStars'
 import { useEffect } from 'react'
+import InputV2 from '@/components/InputV2'
 
 interface Props {
   categories: Category[]
   queryConfig: Dictionary<string>
-  scrollToTop: () => void
   handleRemoveAll: () => void
 }
 
 export interface ProductsFilterFormData {
   price_min: string
   price_max: string
-  root: string
 }
 
-export const AsideFilter = ({ categories, queryConfig, scrollToTop, handleRemoveAll }: Props) => {
+export const AsideFilter = ({ categories, queryConfig, handleRemoveAll }: Props) => {
   const { category, price_min, price_max } = queryConfig as ProductListConfig
   const navigate = useNavigate()
   const {
@@ -148,38 +146,26 @@ export const AsideFilter = ({ categories, queryConfig, scrollToTop, handleRemove
       <form className='border-b border-[#00000017] mt-5 pb-5' onSubmit={onSubmit}>
         <div className='text-sm text-[#000000cc]'>Khoảng giá</div>
         <div className='flex justify-between items-center mt-5 mb-[0.625rem]'>
-          <Controller
+          <InputV2
             control={control}
             name='price_min'
-            render={({ field }) => (
-              <InputNumber
-                classNameInput='text-xs w-20 h-[1.875rem] pl-[.3125rem] outline-none shadow-[inset_0_1px_0_0_rgba(0,0,0,.05)] rounded-sm border border-[#00000042] bg-white'
-                type='text'
-                placeholder='₫ TỪ'
-                onChange={(e) => {
-                  field.onChange(e)
-                  clearErrors()
-                }}
-                value={field.value}
-              />
-            )}
+            classNameInput='text-xs w-20 h-[1.875rem] pl-[.3125rem] outline-none shadow-[inset_0_1px_0_0_rgba(0,0,0,.05)] rounded-sm border border-[#00000042] bg-white'
+            type='number'
+            placeholder='₫ TỪ'
+            onChange={() => {
+              clearErrors()
+            }}
           />
           <div className='bg-[#bdbdbd] h-[0.0625rem] mx-[0.625rem] flex-1'></div>
-          <Controller
+          <InputV2
             control={control}
             name='price_max'
-            render={({ field }) => (
-              <InputNumber
-                classNameInput='text-xs w-20 h-[1.875rem] pl-[.3125rem] outline-none shadow-[inset_0_1px_0_0_rgba(0,0,0,.05)] rounded-sm border border-[#00000042] bg-white'
-                type='text'
-                placeholder='₫ ĐẾN'
-                onChange={(e) => {
-                  field.onChange(e)
-                  clearErrors()
-                }}
-                value={field.value}
-              />
-            )}
+            classNameInput='text-xs w-20 h-[1.875rem] pl-[.3125rem] outline-none shadow-[inset_0_1px_0_0_rgba(0,0,0,.05)] rounded-sm border border-[#00000042] bg-white'
+            type='number'
+            placeholder='₫ ĐẾN'
+            onChange={() => {
+              clearErrors()
+            }}
           />
         </div>
         {errors.price_min && (
@@ -192,7 +178,7 @@ export const AsideFilter = ({ categories, queryConfig, scrollToTop, handleRemove
           Áp dụng
         </Button>
       </form>
-      <RatingStars scrollToTop={scrollToTop} queryConfig={queryConfig} stopLines={5} />
+      <RatingStars queryConfig={queryConfig} stopLines={5} />
       <Button
         onClick={handleRemoveAll}
         className='mt-5 w-full text-sm bg-orange text-white h-[1.875rem] rounded-sm uppercase font-normal shadow-sm flex items-center justify-center px-[0.375rem] py-[0.0625rem]'

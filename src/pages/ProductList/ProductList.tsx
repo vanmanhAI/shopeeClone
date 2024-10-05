@@ -1,6 +1,5 @@
 import { keepPreviousData, useQuery } from '@tanstack/react-query'
 import AsideFilter from './components/AsideFilter'
-import { Product } from './components/Product/Product'
 import SortedProductList from './SortProductList'
 import { getProducts } from '@/apis/product.api'
 import Pagination from '@/components/Pagination'
@@ -12,6 +11,8 @@ import path from '@/constants/path'
 import { Dictionary, omit } from 'lodash'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { ProductListConfig } from '@/types/product.type'
+import { scrollToTop } from '@/utils/utils'
+import ProductLIstItem from '@/components/Product/components/ProductListItem'
 
 const ProductList = () => {
   const queryConfig = useQueryConfig() as ProductListConfig
@@ -26,17 +27,11 @@ const ProductList = () => {
   })
 
   const { data: categoriesData } = useQuery({
-    queryKey: ['categories'],
+    queryKey: [QUERY_KEYS.GET_CATEGORIES],
     queryFn: () => {
       return getCategories()
     }
   })
-
-  const scrollToTop = () => {
-    window.scrollTo({
-      top: 0
-    })
-  }
 
   const handleRemoveAll = () => {
     navigate({
@@ -48,7 +43,7 @@ const ProductList = () => {
             page: '1',
             limit: '20'
           },
-          ['price_min', 'price_max', 'rating_filter', 'category']
+          ['price_min', 'price_max', 'rating_filter', 'category', 'name']
         )
       ).toString()
     })
@@ -62,7 +57,6 @@ const ProductList = () => {
           <div className='col-span-1'>
             <AsideFilter
               handleRemoveAll={handleRemoveAll}
-              scrollToTop={scrollToTop}
               categories={categoriesData?.data.data || []}
               queryConfig={queryConfig as Dictionary<string>}
             />
@@ -106,13 +100,12 @@ const ProductList = () => {
                   <div className='mt-[0.3125rem] grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-[0.625rem]'>
                     {productData.data.data.products.map((product) => (
                       <div className='col-span-1' key={product._id}>
-                        <Product scrollToTop={scrollToTop} product={product} />
+                        <ProductLIstItem product={product} />
                       </div>
                     ))}
                   </div>
                   <Pagination
                     queryConfig={queryConfig as Dictionary<string>}
-                    scrollToTop={scrollToTop}
                     pageSize={productData.data.data.pagination.page_size}
                   />
                 </>

@@ -1,4 +1,5 @@
 import path from '@/constants/path'
+import { scrollToTop } from '@/utils/utils'
 import classNames from 'classnames'
 import { Dictionary, omit } from 'lodash'
 import { useState } from 'react'
@@ -7,10 +8,9 @@ import { createSearchParams, useNavigate } from 'react-router-dom'
 interface Props {
   queryConfig: Dictionary<string>
   stopLines?: number
-  scrollToTop: () => void
 }
 
-export const RatingStars = ({ queryConfig, stopLines = 6, scrollToTop }: Props) => {
+export const RatingStars = ({ queryConfig, stopLines = 6 }: Props) => {
   const { rating_filter } = queryConfig
 
   const stopLinesIdInitial = rating_filter === '1' ? 6 : stopLines - 1

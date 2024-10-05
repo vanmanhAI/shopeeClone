@@ -8,15 +8,15 @@ interface DialogContentProps {
 
 export const DialogContent = React.forwardRef<HTMLDivElement, React.HTMLProps<HTMLDivElement> & DialogContentProps>(
   function DialogContent({ classNameOverlay = 'bg-[#00000024] z-20 grid place-items-center px-10', ...rest }, propRef) {
-    const { context: floatingContext, ...context } = useDialogContext()
+    const { context: floatingContext, isLockScroll, disableFocusManagement, ...context } = useDialogContext()
     const ref = useMergeRefs([context.refs.setFloating, propRef])
 
     if (!floatingContext.open) return null
 
     return (
       <FloatingPortal>
-        <FloatingOverlay className={classNameOverlay} lockScroll>
-          <FloatingFocusManager context={floatingContext}>
+        <FloatingOverlay className={classNameOverlay} lockScroll={isLockScroll}>
+          <FloatingFocusManager context={floatingContext} initialFocus={-1} disabled={disableFocusManagement}>
             <div
               ref={ref}
               aria-labelledby={context.labelId}

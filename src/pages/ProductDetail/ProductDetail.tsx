@@ -1,42 +1,77 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { Link, useParams } from 'react-router-dom'
+import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { Link, useNavigate, useParams } from 'react-router-dom'
 import { getProductDetail, getProducts } from '@/apis/product.api'
 import BreadCrumb from '@/components/BreadCrumb'
 import ProductRating from '@/components/ProductRating'
-import { formatNumberToSocialStyle, getIdFromNameId } from '@/utils/utils'
+import { formatNumberToSocialStyle, genNameId, getIdFromNameId } from '@/utils/utils'
 import Popover from '@/components/Popover'
-import InputNumber from '@/components/InputNumber'
 import Button from '@/components/Button'
 import DOMPurify from 'dompurify'
-import { useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useState } from 'react'
 import { Dialog } from '@/components/Dialog/context/dialog.context'
 import DialogTrigger from '@/components/Dialog/components/DialogTrigger'
 import DialogContent from '@/components/Dialog/components/DialogContent'
 import DialogHeading from '@/components/Dialog/components/DialogHeading'
 import { QUERY_KEYS } from '@/constants/queryKeys'
 import { ProductListConfig } from '@/types/product.type'
+import ProductRelatedItem from '@/components/Product/components/ProductRelatedItem'
+import path from '@/constants/path'
+import QuantityController from '@/components/QuantityController'
+import { addToCart, getCart } from '@/apis/purchase.apis'
+import { queryClient } from '@/routes'
+import { PURCHASE_STATUS } from '@/constants/purchase'
+import { AppContext } from '@/contexts/app.context'
+import 'react-toastify/dist/ReactToastify.css'
+import checkAddCartSuccess from '@/assets/images/check-addCart-success.svg'
 
 export default function ProductDetail() {
+  const [buyCount, setBuyCount] = useState(1)
+  const [isShowCheckAddCart, setIsShowCheckAddCart] = useState(false)
+  const { isAuthenticated } = useContext(AppContext)
+  const navigate = useNavigate()
   const { nameId } = useParams()
   const id = getIdFromNameId(nameId as string)
+  const [currentImagesRange, setCurrentImagesRange] = useState([0, 5])
+  const [activeImage, setActiveImage] = useState('')
+  const [activeImageInner, setActiveImageInner] = useState(0)
+
   const { data: productDetailData } = useSuspenseQuery({
     queryKey: [QUERY_KEYS.GET_PRODUCT_BY_ID, id],
     queryFn: () => getProductDetail(id as string)
   })
   const product = productDetailData.data.data
+  const currentImages = useMemo(() => product.images.slice(...currentImagesRange), [currentImagesRange, product])
 
-  const queryConfig: ProductListConfig = { page: '1', limit: '30', category: product.category._id }
+  const addToCartMutation = useMutation({
+    mutationFn: (body: { product_id: string; buy_count: number }) => addToCart(body),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: [QUERY_KEYS.GET_CART]
+      })
+    }
+  })
+
+  const queryConfig: ProductListConfig = { page: '1', limit: '40', category: product.category._id }
   const { data: relatedProductsData } = useSuspenseQuery({
     queryKey: [QUERY_KEYS.GET_PRODUCTS, queryConfig],
     queryFn: () => getProducts(queryConfig)
   })
+  const products = relatedProductsData.data.data.products
 
-  console.log(relatedProductsData.data.data)
+  const { data: cartData } = useQuery({
+    queryKey: [QUERY_KEYS.GET_CART, { status: PURCHASE_STATUS.IN_CART }],
+    queryFn: () => getCart({ status: PURCHASE_STATUS.IN_CART }),
+    enabled: isAuthenticated
+  })
+  const purchases = cartData?.data.data
 
-  const [currentImagesRange, setCurrentImagesRange] = useState([0, 5])
-  const [activeImage, setActiveImage] = useState(product.image)
-  const [activeImageInner, setActiveImageInner] = useState(0)
-  const currentImages = useMemo(() => product.images.slice(...currentImagesRange), [currentImagesRange, product])
+  const maxQtt = useMemo(() => {
+    const purchaseInCart = (purchases ?? []).find((purchase) => purchase.product._id === product._id)
+    if (purchaseInCart) {
+      return product.quantity - purchaseInCart.buy_count
+    }
+    return product.quantity
+  }, [purchases, product])
 
   const hoverToShowImage = (img: string) => {
     setActiveImage(img)
@@ -73,6 +108,43 @@ export default function ProductDetail() {
       }
     }
   }
+
+  const handleBuyCount = (value: number) => {
+    setBuyCount(value)
+  }
+
+  const handleAddToCart = () => {
+    if (!isAuthenticated) {
+      navigate(path.login)
+      return
+    }
+
+    addToCartMutation.mutate(
+      { buy_count: buyCount, product_id: product._id },
+      {
+        onSuccess: () => {
+          setIsShowCheckAddCart(true)
+        }
+      }
+    )
+  }
+
+  const handleClickCheckCart = () => {
+    setIsShowCheckAddCart(false)
+  }
+
+  useEffect(() => {
+    setActiveImage(product.image)
+  }, [nameId, product.image])
+
+  useEffect(() => {
+    if (isShowCheckAddCart) {
+      const timer = setTimeout(() => {
+        setIsShowCheckAddCart(false)
+      }, 4000)
+      return () => clearTimeout(timer)
+    }
+  }, [isShowCheckAddCart])
 
   return (
     <div className='bg-[#f5f5f5] py-5'>
@@ -377,51 +449,49 @@ export default function ProductDetail() {
                 </Popover>
               </div>
             </div>
-            <div className='flex items-center text-[#222] p-1 mb-[1.5625rem] text-sm leading-[1.05rem]'>
+            <div className='flex items-center text-[#222] p-1 text-sm leading-[1.05rem]'>
               <div className='flex-shrink-0 capitalize w-[6.875rem] font-normal text-[#757575]'>Số lượng</div>
               <div className='flex items-center text-[#555]'>
-                <div className='bg-white flex items-center text-sm mr-[0.9375rem]'>
-                  <button className='border border-[#00000017] flex items-center justify-center text-black/80 leading-none font-light size-8 tracking-normal outline-none bg-transparent rounded-tl-sm rounded-bl-sm'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={1.5}
-                      stroke='currentColor'
-                      className='size-[0.625rem] flex-shrink-0'
-                    >
-                      <path strokeLinecap='round' strokeLinejoin='round' d='M5 12h14' />
-                    </svg>
-                  </button>
-                  <InputNumber
-                    value={1}
-                    className='cursor-text py-[1px] px-0.5 border-r-0 rounded-none border-l-0 text-base border border-[#00000017] leading-none tracking-normal bg-transparent font-normal outline-none text-center w-[3.125rem] h-8 focus-visible:shadow-[0_0_0_2px_#fff,0_0_0_4px_#000]'
-                  />
-                  <button className='border border-[#00000017] flex items-center justify-center text-black/80 leading-none font-light size-8 tracking-normal outline-none bg-transparent rounded-tl-sm rounded-bl-sm'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      fill='none'
-                      viewBox='0 0 24 24'
-                      strokeWidth={1.5}
-                      stroke='currentColor'
-                      className='size-[0.625rem] flex-shrink-0'
-                    >
-                      <path strokeLinecap='round' strokeLinejoin='round' d='M12 4.5v15m7.5-7.5h-15' />
-                    </svg>
-                  </button>
-                </div>
+                <QuantityController
+                  value={buyCount}
+                  onType={handleBuyCount}
+                  onDecrease={handleBuyCount}
+                  onIncrease={handleBuyCount}
+                  max={maxQtt}
+                />
                 <div>{`${product.quantity} sản phẩm có sẵn`}</div>
               </div>
             </div>
-            <div className='flex'>
-              <Button className='flex items-center bg-[#ff57221a] justify-center border border-orange shadow-sm outline-none  h-12 px-5 truncate rounded-sm cursor-pointer mr-[0.9375rem] text-orange text-sm leading-tight max-w-[15.625rem] hover:bg-[#ffc5b22e]'>
-                <img
-                  className='size-5 mr-[0.625rem]'
-                  src='https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/0f3bf6e431b6694a9aac.svg'
-                  alt=''
-                />
-                <div>Thêm vào giỏ hàng</div>
-              </Button>
+            <div className='text-orange ml-[6.875rem] mt-[0.9375rem] text-sm leading-tight'>
+              {buyCount >= maxQtt && 'Số lượng bạn chọn đã đạt mức tối đa của sản phẩm này'}
+            </div>
+            <div className='flex mt-[1.875rem]'>
+              <Dialog isLockScroll={false} open={isShowCheckAddCart} onOpenChange={setIsShowCheckAddCart}>
+                <DialogTrigger
+                  onClick={handleAddToCart}
+                  className='flex items-center bg-[#ff57221a] justify-center border border-orange shadow-sm outline-none  h-12 px-5 truncate rounded-sm cursor-pointer mr-[0.9375rem] text-orange text-sm leading-tight max-w-[15.625rem] hover:bg-[#ffc5b22e]'
+                >
+                  <img
+                    className='size-5 mr-[0.625rem]'
+                    src='https://deo.shopeemobile.com/shopee/shopee-pcmall-live-sg/productdetailspage/0f3bf6e431b6694a9aac.svg'
+                    alt=''
+                  />
+                  <div>Thêm vào giỏ hàng</div>
+                </DialogTrigger>
+                <DialogContent
+                  onClick={handleClickCheckCart}
+                  classNameOverlay='bg-transparent z-20 grid place-items-center px-10'
+                >
+                  <div className='flex justify-center items-center transition-opacity'>
+                    <div className='bg-black/70 rounded-sm text-white text-[1.0625rem] leading-tight overflow-hidden flex flex-col items-center gap-5 px-5 py-10 min-w-[21.25rem]'>
+                      <div className='size-[3.75rem] bg-[#00bfa5] flex items-center justify-center rounded-full'>
+                        <img className='size-[1.875rem]' src={checkAddCartSuccess} alt='' />
+                      </div>
+                      <div>Sản phẩm đã được thêm vào Giỏ hàng</div>
+                    </div>
+                  </div>
+                </DialogContent>
+              </Dialog>
               <Button className='flex items-center bg-orange border-none shadow-sm outline-none justify-center h-12 px-5 truncate rounded-sm cursor-pointer mr-[0.9375rem] text-white text-sm capitalize leading-tight max-w-[15.625rem] hover:bg-orange/95 min-w-[11.25rem]'>
                 <span>Mua ngay</span>
               </Button>
@@ -443,6 +513,22 @@ export default function ProductDetail() {
             </section>
           </div>
         </section>
+        <div className='text-black/80 text-sm leading-tight'>
+          <div className='pt-5 pb-[0.625rem] uppercase'>Có thể bạn cũng thích</div>
+          <div className='mt-[0.3125rem] grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-[0.625rem]'>
+            {products.map((relatedProduct) => {
+              if (relatedProduct._id === product._id) return null
+              return (
+                <div className='col-span-1' key={relatedProduct._id}>
+                  <ProductRelatedItem
+                    product={relatedProduct}
+                    to={`${path.home}${genNameId({ name: relatedProduct.name, id: relatedProduct._id })}`}
+                  />
+                </div>
+              )
+            })}
+          </div>
+        </div>
       </div>
     </div>
   )
